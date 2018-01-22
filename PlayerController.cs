@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{ 
+{
     //private GroundRayCast rayCastData;
 
     bool canMoveRight;  // if the player could move in this direciton 
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     RaycastHit hit; //raycast data 
 
-    enum Direction { R = 0, L, F, B };
+    enum Direction { F = 0, B, R, L };
 
     Ray Ray_right;
     Ray Ray_left;
@@ -35,8 +35,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+
         range = 0.5f;
-        speed = 0.01f;
+        speed = 0.1f;
         canMoveRight = true;
         canMoveLeft = true;
         canMoveForward = true;
@@ -129,7 +130,7 @@ public class PlayerController : MonoBehaviour
         if (Back && canMoveBack)
         { 
             Debug.Log("Moving Back");
-            transform.position -= transform.forward * speed;
+            transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.forward, speed);
             inMotion = true;
             currentDireciton = (int)Direction.L;
         }
@@ -175,7 +176,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("right collided !!");
             }
         }
-        else if (Physics.Raycast(Ray_left, out hit, range))
+        if (Physics.Raycast(Ray_left, out hit, range))
         {
             if (hit.collider.tag == "mazeWalls")
             {
@@ -183,7 +184,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("left collided !!");
             }
         }
-        else if (Physics.Raycast(Ray_forward, out hit, range))
+        if (Physics.Raycast(Ray_forward, out hit, range))
         {
             if (hit.collider.tag == "mazeWalls")
             {
@@ -191,7 +192,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("forward collided !!");
             }
         }
-        else if (Physics.Raycast(Ray_back, out hit, range))
+        if (Physics.Raycast(Ray_back, out hit, range))
         {
             if (hit.collider.tag == "mazeWalls")
             {
@@ -200,6 +201,7 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+        Debug.Log("current direction : " + currentDireciton + " direction :" + direction);
         if ((direction == (int)Direction.R && currentDireciton == (int)Direction.R))
         {
             Debug.Log("Cant move Right");
