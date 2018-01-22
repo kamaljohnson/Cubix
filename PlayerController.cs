@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     RaycastHit hit; //raycast data 
 
-    enum Direction { F = 0, B, R, L };
+    enum Direction { F = 0, B, R, L };  //for the direciton 
 
     Ray Ray_right;
     Ray Ray_left;
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        inJunction = false;
         range = 0.5f;
         speed = 0.1f;
         canMoveRight = true;
@@ -130,11 +130,13 @@ public class PlayerController : MonoBehaviour
         if (Back && canMoveBack)
         { 
             Debug.Log("Moving Back");
-            transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.forward, speed);
+            while (!inJunction)
+                transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.forward, speed);
             inMotion = true;
             currentDireciton = (int)Direction.L;
         }
         inJunction = getJunctionData();
+        Debug.Log("inJunction : " + inJunction);
         if (inJunction)
         {
             //code for stopping the motion of the player
@@ -167,7 +169,7 @@ public class PlayerController : MonoBehaviour
     }
     bool getJunctionData()
     {
-        int direction = -1;
+        int direction = -1; //collision direction
         if (Physics.Raycast(Ray_right, out hit, range))
         {
             if (hit.collider.tag == "mazeWalls")
