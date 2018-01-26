@@ -158,9 +158,9 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log("changing direciton");
         if(Input.GetAxis("Horizontal") > 0)
         {
-            Debug.Log("Right");
-            if (currentDireciton != direction.Right && !rightTrig.trig)
+            if (!rightTrig.trig)
             {
+                Debug.Log("Right");
                 movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Right;
@@ -168,9 +168,9 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
-            Debug.Log("Left");
-            if (currentDireciton != direction.Left && !leftTrig.trig)
+            if (!leftTrig.trig)
             {
+                Debug.Log("Left");
                 movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Left;
@@ -178,9 +178,9 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") > 0)
         {
-            Debug.Log("Forward");
-            if (currentDireciton != direction.Forward && !forwardTrig.trig)
+            if (!forwardTrig.trig)
             {
+                Debug.Log("Forward");
                 movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Forward;
@@ -188,9 +188,9 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
-            Debug.Log("Back");
-            if (currentDireciton != direction.Back && !backTrig.trig)
+            if (!backTrig.trig)
             {
+                Debug.Log("Back");
                 movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Back;

@@ -176,13 +176,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 39062790}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.433, y: 1.181, z: 0.259}
+  m_LocalPosition: {x: 2.4909, y: 1.21, z: 0.247}
   m_LocalScale: {x: 0.17264533, y: 0.17264582, z: 0.17264578}
   m_Children:
   - {fileID: 1224090004}
   - {fileID: 2136234533}
-  - {fileID: 1106424956}
   - {fileID: 639839316}
+  - {fileID: 1106424956}
   m_Father: {fileID: 568025643}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -209,8 +209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45cb256016d1e343a1c3e2c5232aeaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightCollider: {fileID: 639839315}
-  leftCollider: {fileID: 1106424955}
+  rightCollider: {fileID: 1106424955}
+  leftCollider: {fileID: 639839315}
   forwardCollider: {fileID: 2136234532}
   backCollider: {fileID: 1224090003}
 --- !u!54 &39062797
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 639839317}
   - component: {fileID: 639839318}
   m_Layer: 0
-  m_Name: rightCollider
+  m_Name: leftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,7 +306,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 39062793}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &639839317
 BoxCollider:
@@ -318,8 +318,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9999998, y: 0.4999998, z: 0.96812624}
-  m_Center: {x: -0.00000007494696, y: 0.25000012, z: 0.015936343}
+  m_Size: {x: 2.4999993, y: 0.4999998, z: 0.96812624}
+  m_Center: {x: -0.00000048453325, y: 0.25000012, z: 0.015936345}
 --- !u!114 &639839318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 1106424957}
   - component: {fileID: 1106424958}
   m_Layer: 0
-  m_Name: leftCollider
+  m_Name: rightCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,7 +360,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 39062793}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1106424957
 BoxCollider:
@@ -372,8 +372,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.0000005, y: 0.50000024, z: 1.007544}
-  m_Center: {x: -9.946065e-11, y: 0.24999997, z: 0.0037720052}
+  m_Size: {x: 2.500001, y: 0.50000024, z: 1.007544}
+  m_Center: {x: 0.00000029778357, y: 0.24999996, z: 0.0037720052}
 --- !u!114 &1106424958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,8 +426,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.937167, y: 0.50826144, z: 2.1164963}
-  m_Center: {x: -0.024219355, y: 0.25000027, z: 0.021832658}
+  m_Size: {x: 0.937167, y: 0.50826144, z: 2.523769}
+  m_Center: {x: -0.024219373, y: 0.25000027, z: -0.0012869388}
 --- !u!114 &1224090006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,7 +567,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -578,7 +578,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -808,8 +808,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.026826, y: 0.5684885, z: 1.9999996}
-  m_Center: {x: 0.020831686, y: 0.2500002, z: 0.00000014916273}
+  m_Size: {x: 1.026826, y: 0.5684885, z: 2.5311182}
+  m_Center: {x: 0.02083167, y: 0.25000018, z: 0.017868763}
 --- !u!114 &2136234535
 MonoBehaviour:
   m_ObjectHideFlags: 0
