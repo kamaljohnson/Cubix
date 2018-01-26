@@ -28,8 +28,9 @@ public class PlayerControl : MonoBehaviour {
     bool inMotion;
     bool inJunction;
     bool atBoundary;
+    bool movementFlag;
     void Start () {
-
+        movementFlag = false;
         speed = 0.01f;
         rightTrig = rightCollider.GetComponent<triggering>();
         leftTrig = leftCollider.GetComponent<triggering>();
@@ -50,20 +51,22 @@ public class PlayerControl : MonoBehaviour {
         {
             changePlane();
         }
-        else if(inJunction)
+        else if(inJunction && movementFlag == false)
         {
             changeDirection();
         }
         else
             Move();
+
 	}
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
     {
-        Debug.Log("Trig");
         if (rightTrig.trig)
         {
             if(currentDireciton == direction.Right)
             {
+                Debug.Log("Hitting the right side");
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -71,6 +74,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
             {
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -78,6 +82,8 @@ public class PlayerControl : MonoBehaviour {
         {
             if (currentDireciton == direction.Left)
             {
+                Debug.Log("Hitting the left side");
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -85,6 +91,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
             {
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -92,6 +99,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (currentDireciton == direction.Forward)
             {
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -99,6 +107,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if(currentDireciton == direction.Right || currentDireciton == direction.Left)
             {
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -106,6 +115,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (currentDireciton == direction.Back)
             {
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -113,6 +123,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (currentDireciton == direction.Right || currentDireciton == direction.Left)
             {
+                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -141,7 +152,6 @@ public class PlayerControl : MonoBehaviour {
 
         }
         player.MovePosition(player.position + destination*speed);
-        
     }
     void changeDirection()  //used to change the direciton of the player
     {
@@ -149,8 +159,9 @@ public class PlayerControl : MonoBehaviour {
         if(Input.GetAxis("Horizontal") > 0)
         {
             Debug.Log("Right");
-            if (currentDireciton != direction.Right)
+            if (currentDireciton != direction.Right && !rightTrig.trig)
             {
+                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Right;
             }
@@ -158,8 +169,9 @@ public class PlayerControl : MonoBehaviour {
         else if (Input.GetAxis("Horizontal") < 0)
         {
             Debug.Log("Left");
-            if (currentDireciton != direction.Left)
+            if (currentDireciton != direction.Left && !leftTrig.trig)
             {
+                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Left;
             }
@@ -167,8 +179,9 @@ public class PlayerControl : MonoBehaviour {
         else if (Input.GetAxis("Vertical") > 0)
         {
             Debug.Log("Forward");
-            if (currentDireciton != direction.Forward)
+            if (currentDireciton != direction.Forward && !forwardTrig.trig)
             {
+                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Forward;
             }
@@ -176,15 +189,12 @@ public class PlayerControl : MonoBehaviour {
         else if (Input.GetAxis("Vertical") < 0)
         {
             Debug.Log("Back");
-            if (currentDireciton != direction.Back)
+            if (currentDireciton != direction.Back && !backTrig.trig)
             {
+                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Back;
             }
-        }
-        else
-        {
-            currentDireciton = direction.None;
         }
     }
     void changePlane()  //for changing the current face of the maze 

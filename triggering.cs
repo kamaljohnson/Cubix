@@ -5,19 +5,22 @@ using UnityEngine;
 public class triggering : MonoBehaviour {
 
     public bool trig;
+    bool stay;
     void Start()
     {
         Debug.Log("the trigger class is activated ");
         trig = false;
     }
-    void OnTriggerEnter(Collider other)
+    void Update()
     {
-        Debug.Log("Triggered");
+        trig = false;
+    }
+    void OnTriggerStay(Collider other)
+    {
         trig = true;
     }
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("hello");
         trig = false;
     }
 
