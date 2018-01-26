@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 public class PlayerControl : MonoBehaviour {
 
     Rigidbody player;
@@ -31,7 +30,7 @@ public class PlayerControl : MonoBehaviour {
     bool atBoundary;
     void Start () {
 
-        speed = 0.1f;
+        speed = 0.01f;
         rightTrig = rightCollider.GetComponent<triggering>();
         leftTrig = leftCollider.GetComponent<triggering>();
         forwardTrig = forwardCollider.GetComponent<triggering>();
@@ -45,22 +44,78 @@ public class PlayerControl : MonoBehaviour {
 	}
 	
 	void Update () {
-
+        Debug.Log(currentDireciton);
         TrigCol();
-
         if(atBoundary)
         {
             changePlane();
         }
-        if(inJunction)
+        else if(inJunction)
         {
             changeDirection();
         }
-
-        Move();
+        else
+            Move();
 	}
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
     {
+        Debug.Log("Trig");
+        if (rightTrig.trig)
+        {
+            if(currentDireciton == direction.Right)
+            {
+                inJunction = true;
+            }
+        }
+        else
+        {
+            if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
+            {
+                inJunction = true;
+            }
+        }
+        if (leftTrig.trig)
+        {
+            if (currentDireciton == direction.Left)
+            {
+                inJunction = true;
+            }
+        }
+        else
+        {
+            if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
+            {
+                inJunction = true;
+            }
+        }
+        if (forwardTrig.trig)
+        {
+            if (currentDireciton == direction.Forward)
+            {
+                inJunction = true;
+            }
+        }
+        else
+        {
+            if(currentDireciton == direction.Right || currentDireciton == direction.Left)
+            {
+                inJunction = true;
+            }
+        }
+        if (backTrig.trig)
+        {
+            if (currentDireciton == direction.Back)
+            {
+                inJunction = true;
+            }
+        }
+        else
+        {
+            if (currentDireciton == direction.Right || currentDireciton == direction.Left)
+            {
+                inJunction = true;
+            }
+        }
         Debug.Log(rightTrig.trig + " right");
         Debug.Log(leftTrig.trig + " left");
         Debug.Log(forwardTrig.trig + " forward");
@@ -94,22 +149,38 @@ public class PlayerControl : MonoBehaviour {
         if(Input.GetAxis("Horizontal") > 0)
         {
             Debug.Log("Right");
-            currentDireciton = direction.Right;
+            if (currentDireciton != direction.Right)
+            {
+                inJunction = false;
+                currentDireciton = direction.Right;
+            }
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
             Debug.Log("Left");
-            currentDireciton = direction.Left;
+            if (currentDireciton != direction.Left)
+            {
+                inJunction = false;
+                currentDireciton = direction.Left;
+            }
         }
         else if (Input.GetAxis("Vertical") > 0)
         {
             Debug.Log("Forward");
-            currentDireciton = direction.Forward;
+            if (currentDireciton != direction.Forward)
+            {
+                inJunction = false;
+                currentDireciton = direction.Forward;
+            }
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
             Debug.Log("Back");
-            currentDireciton = direction.Back;
+            if (currentDireciton != direction.Back)
+            {
+                inJunction = false;
+                currentDireciton = direction.Back;
+            }
         }
         else
         {

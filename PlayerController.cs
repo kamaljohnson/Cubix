@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     RaycastHit hit; //raycast data 
 
-    enum Direction { F = 0, B, R, L };  //for the direciton 
+    enum Direction { F = 0, B, L, R };  //for the direciton 
 
     Ray Ray_right;
     Ray Ray_left;
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         inJunction = false;
-        range = 0.5f;
+        range = 0.58f;
         speed = 0.1f;
         canMoveRight = true;
         canMoveLeft = true;
@@ -110,14 +110,14 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Moving Right");
             transform.position += transform.right * speed;
             inMotion = true;
-            currentDireciton = (int)Direction.B;
+            currentDireciton = (int)Direction.R;
         }
         if (Left && canMoveLeft)
         {
             Debug.Log("Moving Left");
             transform.position -= transform.right * speed;
             inMotion = true;
-            currentDireciton = (int)Direction.F;
+            currentDireciton = (int)Direction.L;
         }
         if (Forward && canMoveForward)
         {
@@ -125,15 +125,15 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Moving Forward");
             transform.position += transform.forward * speed;
             inMotion = true;
-            currentDireciton = (int)Direction.R;
+            currentDireciton = (int)Direction.F;
         }
         if (Back && canMoveBack)
         { 
             Debug.Log("Moving Back");
-            while (!inJunction)
+            //while (!inJunction)
                 transform.position = Vector3.MoveTowards(transform.position, transform.position - transform.forward, speed);
             inMotion = true;
-            currentDireciton = (int)Direction.L;
+            currentDireciton = (int)Direction.B;
         }
         inJunction = getJunctionData();
         Debug.Log("inJunction : " + inJunction);
@@ -142,24 +142,29 @@ public class PlayerController : MonoBehaviour
             //code for stopping the motion of the player
             if (!Physics.Raycast(Ray_right, out hit, 0.5f))
             {
+
+                Debug.Log("Direction free : " + "R");
                 canMoveRight = true;
             }
             else
                 canMoveRight = false;
             if (!Physics.Raycast(Ray_left, out hit, 0.5f))
             {
+                Debug.Log("Direction free : " + "L");
                 canMoveLeft = true;
             }
             else
                 canMoveLeft = false;
             if (!Physics.Raycast(Ray_forward, out hit, 0.5f))
             {
+                Debug.Log("Direction free : " + "F");
                 canMoveForward = true;
             }
             else
                 canMoveForward = false;
             if (!Physics.Raycast(Ray_back, out hit, 0.5f))
             {
+                Debug.Log("Direction free : " + "B");
                 canMoveBack = true;
             }
             else
@@ -197,52 +202,46 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(Ray_back, out hit, range))
         {
             if (hit.collider.tag == "mazeWalls")
-            {
+            {   
                 direction = (int)Direction.B;
                 Debug.Log("back collided !!");
             }
 
         }
         Debug.Log("current direction : " + currentDireciton + " direction :" + direction);
-        if ((direction == (int)Direction.R && currentDireciton == (int)Direction.R))
-        {
-            Debug.Log("Cant move Right");
-            canMoveRight = false;
-            inMotion = false;
-        }
-        if ((direction == (int)Direction.L && currentDireciton == (int)Direction.L))
-        {
-            Debug.Log("Cant move Left");
-            canMoveLeft = false;
-            inMotion = false;
-        }
         if ((direction == (int)Direction.F && currentDireciton == (int)Direction.F))
         {
             Debug.Log("Cant move Forward");
-            canMoveForward = false;
+            canMoveRight = false;
             inMotion = false;
         }
         if ((direction == (int)Direction.B && currentDireciton == (int)Direction.B))
         {
             Debug.Log("Cant move Back");
+            canMoveLeft = false;
+            inMotion = false;
+        }
+        if ((direction == (int)Direction.L && currentDireciton == (int)Direction.L))
+        {
+            Debug.Log("Cant move Left");
+            canMoveForward = false;
+            inMotion = false;
+        }
+        if ((direction == (int)Direction.R && currentDireciton == (int)Direction.R))
+        {
+            Debug.Log("Cant move Right");
             canMoveBack = false;
             inMotion = false;
         }
 
-        if ((currentDireciton == (int)Direction.R || currentDireciton == (int)Direction.L) && direction != (int)Direction.F)
+        if ((currentDireciton == (int)Direction.R || currentDireciton == (int)Direction.L) && (direction != (int)Direction.F || direction != (int)Direction.B))
         {
+            Debug.Log("The Forward / Back is free. . .");
             return (true);
         }
-        else if ((currentDireciton == (int)Direction.R || currentDireciton == (int)Direction.L) && direction != (int)Direction.B)
+        else if ((currentDireciton == (int)Direction.F || currentDireciton == (int)Direction.B) && (direction != (int)Direction.R && direction != (int)Direction.L))
         {
-            return (true);
-        }
-        else if ((currentDireciton == (int)Direction.F || currentDireciton == (int)Direction.B) && direction != (int)Direction.R)
-        {
-            return (true);
-        }
-        else if ((currentDireciton == (int)Direction.F || currentDireciton == (int)Direction.B) && direction != (int)Direction.L)
-        {
+            Debug.Log("The Right / Left is free. . .");
             return (true);
         }
         else
