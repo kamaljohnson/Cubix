@@ -21,11 +21,11 @@ public class MazeRotation : MonoBehaviour {
             counter++;
             if (rotateDirection == (int)Direction.Right)
             {
-                transform.Rotate(-2, 0, 0);
+                transform.Rotate(2, 0, 0);
             }
             if (rotateDirection == (int)Direction.Left)
             {
-                transform.Rotate(2, 0, 0);
+                transform.Rotate(-2, 0, 0);
             }
             if (rotateDirection == (int)Direction.Forward)
             {
