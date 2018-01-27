@@ -31,7 +31,7 @@ public class PlayerControl : MonoBehaviour {
     bool movementFlag;
     void Start () {
         movementFlag = false;
-        speed = 0.01f;
+        speed = 0.03f;
         rightTrig = rightCollider.GetComponent<triggering>();
         leftTrig = leftCollider.GetComponent<triggering>();
         forwardTrig = forwardCollider.GetComponent<triggering>();
@@ -45,13 +45,13 @@ public class PlayerControl : MonoBehaviour {
 	}
 	
 	void Update () {
-        Debug.Log(currentDireciton);
+        Debug.Log("inJuntion :" + inJunction);
         TrigCol();
         if(atBoundary)
         {
             changePlane();
         }
-        else if(inJunction && movementFlag == false)
+        else if(inJunction)
         {
             changeDirection();
         }
@@ -70,14 +70,6 @@ public class PlayerControl : MonoBehaviour {
                 inJunction = true;
             }
         }
-        else
-        {
-            if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
-            {
-                movementFlag = false;
-                inJunction = true;
-            }
-        }
         if (leftTrig.trig)
         {
             if (currentDireciton == direction.Left)
@@ -87,26 +79,11 @@ public class PlayerControl : MonoBehaviour {
                 inJunction = true;
             }
         }
-        else
-        {
-            if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
-            {
-                movementFlag = false;
-                inJunction = true;
-            }
-        }
         if (forwardTrig.trig)
         {
             if (currentDireciton == direction.Forward)
             {
-                movementFlag = false;
-                inJunction = true;
-            }
-        }
-        else
-        {
-            if(currentDireciton == direction.Right || currentDireciton == direction.Left)
-            {
+                Debug.Log("Hitting the forward side");
                 movementFlag = false;
                 inJunction = true;
             }
@@ -115,14 +92,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (currentDireciton == direction.Back)
             {
-                movementFlag = false;
-                inJunction = true;
-            }
-        }
-        else
-        {
-            if (currentDireciton == direction.Right || currentDireciton == direction.Left)
-            {
+                Debug.Log("Hitting the back side");
                 movementFlag = false;
                 inJunction = true;
             }

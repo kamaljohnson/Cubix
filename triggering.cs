@@ -13,10 +13,11 @@ public class triggering : MonoBehaviour {
     }
     void Update()
     {
-        trig = false;
+
     }
     void OnTriggerStay(Collider other)
     {
+        Debug.Log("collided with wall");
         trig = true;
     }
     void OnTriggerExit(Collider other)
