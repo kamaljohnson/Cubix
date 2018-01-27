@@ -8,6 +8,7 @@ public class PlayerControl : MonoBehaviour {
 
     public GameObject Maze;
     private Transform maze;
+    private MazeRotation mazeRotate;
     private Transform playerTransform;
 
     public GameObject rightCollider;
@@ -43,6 +44,7 @@ public class PlayerControl : MonoBehaviour {
         speed = 0.03f;
         playerTransform = GetComponent<Transform>();
         maze = Maze.GetComponent<Transform>();
+        mazeRotate = Maze.GetComponent<MazeRotation>();
         groundray = GroundRay.GetComponent<GroundRayCast>();
         rightTrig = rightCollider.GetComponent<triggering>();
         leftTrig = leftCollider.GetComponent<triggering>();
@@ -54,7 +56,7 @@ public class PlayerControl : MonoBehaviour {
         inJunction = true;
 	}
 	
-	void Update () {
+	void FixedUpdate () {
 
         Debug.Log("flag :" + flag);
         TrigCol();
@@ -66,7 +68,7 @@ public class PlayerControl : MonoBehaviour {
         {
             changeDirection();
         }
-        else
+        else 
             Move();
 
 	}
@@ -177,26 +179,26 @@ public class PlayerControl : MonoBehaviour {
         if(currentDireciton == direction.Right)
         {
             flag = 1;
-            playerTransform.Rotate(0, 0, 1);
-            maze.Rotate(1, 0, 0);
+            mazeRotate.rotateDirection = (int)direction.Right;
+            mazeRotate.rotate = true;
         }
         if (currentDireciton == direction.Left)
         {
             flag = 1;
-            playerTransform.Rotate(0, 0, 1);
-            maze.Rotate(1, 0, 0);
+            mazeRotate.rotateDirection = (int)direction.Left;
+            mazeRotate.rotate = true;
         }
         if (currentDireciton == direction.Forward)
         {
             flag = 1;
-            playerTransform.Rotate(0, 0, 90);
-            maze.Rotate(0, 0, -90);
+            mazeRotate.rotateDirection = (int)direction.Forward;
+            mazeRotate.rotate = true;
         }
         if (currentDireciton == direction.Back)
         {
             flag = 1;
-            playerTransform.Rotate(0, 0, -90);
-            maze.Rotate(0, 0, 90);
+            mazeRotate.rotateDirection = (int)direction.Back;
+            mazeRotate.rotate = true;
         }
     }
 }
