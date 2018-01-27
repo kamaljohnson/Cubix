@@ -192,12 +192,14 @@ public class PlayerControl : MonoBehaviour {
         {
             flag = 1;
             mazeRotate.rotateDirection = (int)direction.Forward;
+            transform.Rotate(0, 0, 90);
             mazeRotate.rotate = true;
         }
         if (currentDireciton == direction.Back)
         {
             flag = 1;
             mazeRotate.rotateDirection = (int)direction.Back;
+            transform.Rotate(0, 0, -90);
             mazeRotate.rotate = true;
         }
     }

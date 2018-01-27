@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class GroundRayCast : MonoBehaviour {
     public bool onGround;
-    void Update () { 
+    void Start()
+    {
+        onGround = true;    
+    }
+    void FixedUpdate () { 
         RaycastHit hit;
         Ray Ray_down = new Ray(transform.position, Vector3.down);
 
