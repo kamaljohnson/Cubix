@@ -5,6 +5,11 @@ public class PlayerControl : MonoBehaviour {
     float speed;
     Vector3 destination;    //the next destination
     //the individual colliders for the player 
+
+    public GameObject Maze;
+    private Transform maze;
+    private Transform playerTransform;
+
     public GameObject rightCollider;
     public GameObject leftCollider;
     public GameObject forwardCollider;
@@ -29,8 +34,15 @@ public class PlayerControl : MonoBehaviour {
 
     direction currentDireciton;
     bool inJunction;
+
+    int flag;
     void Start () {
+
+        flag = 0;
+
         speed = 0.03f;
+        playerTransform = GetComponent<Transform>();
+        maze = Maze.GetComponent<Transform>();
         groundray = GroundRay.GetComponent<GroundRayCast>();
         rightTrig = rightCollider.GetComponent<triggering>();
         leftTrig = leftCollider.GetComponent<triggering>();
@@ -43,9 +55,10 @@ public class PlayerControl : MonoBehaviour {
 	}
 	
 	void Update () {
-        Debug.Log("inJuntion :" + inJunction);
+
+        Debug.Log("flag :" + flag);
         TrigCol();
-        if(!groundray.onGround)
+        if(!groundray.onGround && flag == 0)
         {
             changePlane();
         }
@@ -161,5 +174,29 @@ public class PlayerControl : MonoBehaviour {
     void changePlane()  //for changing the current face of the maze 
     {
         Debug.Log("Changing plane");
+        if(currentDireciton == direction.Right)
+        {
+            flag = 1;
+            playerTransform.Rotate(0, 0, 1);
+            maze.Rotate(1, 0, 0);
+        }
+        if (currentDireciton == direction.Left)
+        {
+            flag = 1;
+            playerTransform.Rotate(0, 0, 1);
+            maze.Rotate(1, 0, 0);
+        }
+        if (currentDireciton == direction.Forward)
+        {
+            flag = 1;
+            playerTransform.Rotate(0, 0, 90);
+            maze.Rotate(0, 0, -90);
+        }
+        if (currentDireciton == direction.Back)
+        {
+            flag = 1;
+            playerTransform.Rotate(0, 0, -90);
+            maze.Rotate(0, 0, 90);
+        }
     }
 }

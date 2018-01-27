@@ -124,14 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca51472e75e16bf41897698cecce2e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inJunction: 0
-  Maze: {fileID: 771936866}
   onGround: 0
---- !u!1 &771936866 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1620512061105352, guid: b7fec325c2ee86d4580d648a21e6aa60,
-    type: 2}
-  m_PrefabInternal: {fileID: 1950331791}
 --- !u!1 &1230240754
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +216,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1316046719}
   m_LocalRotation: {x: -0.17504187, y: 0.35039595, z: -0.09022791, w: -0.9156648}
-  m_LocalPosition: {x: 7.72, y: 5.19, z: -16.52}
+  m_LocalPosition: {x: 4.69, y: 3.28, z: -13.08}
   m_LocalScale: {x: 0.34170842, y: 0.34170794, z: 0.34170836}
   m_Children: []
   m_Father: {fileID: 0}
@@ -410,6 +403,16 @@ Prefab:
       propertyPath: GroundRay
       value: 
       objectReference: {fileID: 146063515}
+    - target: {fileID: 114671795844778138, guid: b7fec325c2ee86d4580d648a21e6aa60,
+        type: 2}
+      propertyPath: Maze
+      value: 
+      objectReference: {fileID: 1950331792}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b7fec325c2ee86d4580d648a21e6aa60, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1950331792 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1728724856832234, guid: b7fec325c2ee86d4580d648a21e6aa60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1950331791}
