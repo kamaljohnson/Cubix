@@ -108,6 +108,30 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &146063515 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1585543625816490, guid: b7fec325c2ee86d4580d648a21e6aa60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1950331791}
+--- !u!114 &146063522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 146063515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca51472e75e16bf41897698cecce2e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inJunction: 0
+  Maze: {fileID: 771936866}
+  onGround: 0
+--- !u!1 &771936866 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1620512061105352, guid: b7fec325c2ee86d4580d648a21e6aa60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1950331791}
 --- !u!1 &1230240754
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +331,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4003319686765100, guid: b7fec325c2ee86d4580d648a21e6aa60, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.192
+      value: 1.196
       objectReference: {fileID: 0}
     - target: {fileID: 54128210967899594, guid: b7fec325c2ee86d4580d648a21e6aa60,
         type: 2}
@@ -381,6 +405,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114671795844778138, guid: b7fec325c2ee86d4580d648a21e6aa60,
+        type: 2}
+      propertyPath: GroundRay
+      value: 
+      objectReference: {fileID: 146063515}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b7fec325c2ee86d4580d648a21e6aa60, type: 2}
   m_IsPrefabParent: 0

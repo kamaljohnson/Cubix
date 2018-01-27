@@ -10,6 +10,9 @@ public class PlayerControl : MonoBehaviour {
     public GameObject forwardCollider;
     public GameObject backCollider;
 
+    public GameObject GroundRay;
+    private GroundRayCast groundray;
+
     private triggering rightTrig;
     private triggering leftTrig;
     private triggering forwardTrig;
@@ -25,13 +28,10 @@ public class PlayerControl : MonoBehaviour {
     };
 
     direction currentDireciton;
-    bool inMotion;
     bool inJunction;
-    bool atBoundary;
-    bool movementFlag;
     void Start () {
-        movementFlag = false;
         speed = 0.03f;
+        groundray = GroundRay.GetComponent<GroundRayCast>();
         rightTrig = rightCollider.GetComponent<triggering>();
         leftTrig = leftCollider.GetComponent<triggering>();
         forwardTrig = forwardCollider.GetComponent<triggering>();
@@ -39,15 +39,13 @@ public class PlayerControl : MonoBehaviour {
 
         currentDireciton = direction.None;
         player = GetComponent<Rigidbody>();
-        inMotion = false;
-        atBoundary = false;
         inJunction = true;
 	}
 	
 	void Update () {
         Debug.Log("inJuntion :" + inJunction);
         TrigCol();
-        if(atBoundary)
+        if(!groundray.onGround)
         {
             changePlane();
         }
@@ -66,16 +64,15 @@ public class PlayerControl : MonoBehaviour {
             if(currentDireciton == direction.Right)
             {
                 Debug.Log("Hitting the right side");
-                movementFlag = false;
                 inJunction = true;
             }
         }
+        
         if (leftTrig.trig)
         {
             if (currentDireciton == direction.Left)
             {
                 Debug.Log("Hitting the left side");
-                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -84,7 +81,6 @@ public class PlayerControl : MonoBehaviour {
             if (currentDireciton == direction.Forward)
             {
                 Debug.Log("Hitting the forward side");
-                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -93,7 +89,6 @@ public class PlayerControl : MonoBehaviour {
             if (currentDireciton == direction.Back)
             {
                 Debug.Log("Hitting the back side");
-                movementFlag = false;
                 inJunction = true;
             }
         }
@@ -131,7 +126,6 @@ public class PlayerControl : MonoBehaviour {
             if (!rightTrig.trig)
             {
                 Debug.Log("Right");
-                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Right;
             }
@@ -141,7 +135,6 @@ public class PlayerControl : MonoBehaviour {
             if (!leftTrig.trig)
             {
                 Debug.Log("Left");
-                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Left;
             }
@@ -151,7 +144,6 @@ public class PlayerControl : MonoBehaviour {
             if (!forwardTrig.trig)
             {
                 Debug.Log("Forward");
-                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Forward;
             }
@@ -161,7 +153,6 @@ public class PlayerControl : MonoBehaviour {
             if (!backTrig.trig)
             {
                 Debug.Log("Back");
-                movementFlag = true;
                 inJunction = false;
                 currentDireciton = direction.Back;
             }
