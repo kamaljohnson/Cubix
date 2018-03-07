@@ -11,9 +11,8 @@ public class GroundRayCast : MonoBehaviour {
     void FixedUpdate () { 
         RaycastHit hit;
         Ray Ray_down = new Ray(transform.position, Vector3.down);
-
-      
-        if (Physics.Raycast(Ray_down, out hit, 0.5f))
+        Debug.DrawRay(transform.position, Vector3.down, Color.red);
+        if (Physics.Raycast(Ray_down, out hit, 2.0f))
         {
             if (hit.collider.tag == "mazeBody")
             {

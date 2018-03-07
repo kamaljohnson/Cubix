@@ -39,7 +39,7 @@ public class PlayerControl : MonoBehaviour {
 
     int flag;
     void Start () {
-        flag = 0;
+        flag = 0;   // gets triggered at the edges when the maze is to be turned 
         speed = 0.035f;
         currentPossition = transform.position;
         pastPosition = transform.position;
@@ -58,12 +58,15 @@ public class PlayerControl : MonoBehaviour {
 	void FixedUpdate () {
         currentPossition = transform.position;
         TrigCol();
+        Debug.Log("in Junction : " + inJunction);
         if(!groundray.onGround && flag == 0)
         {
+            Debug.Log("here1");
             changePlane();
         }
         else if(inJunction)
         {
+            Debug.Log("here2");
             flag = 0;
             changeDirection();
         }
@@ -77,6 +80,7 @@ public class PlayerControl : MonoBehaviour {
         float mag = travelled.magnitude;
         if (rightTrig.trig)
         {
+            Debug.Log("Hitting Right");
             if(currentDireciton == direction.Right)
             {
                 inJunction = true;
@@ -94,6 +98,8 @@ public class PlayerControl : MonoBehaviour {
         }
         if (leftTrig.trig)
         {
+            
+            Debug.Log("Hitting Left");
             if (currentDireciton == direction.Left)
             {
                 inJunction = true;
@@ -111,6 +117,8 @@ public class PlayerControl : MonoBehaviour {
         }
         if (forwardTrig.trig)
         {
+            
+            Debug.Log("Hitting Up");
             if (currentDireciton == direction.Forward)
             {
                 inJunction = true;
@@ -128,6 +136,7 @@ public class PlayerControl : MonoBehaviour {
         }
         if (backTrig.trig)
         {
+            Debug.Log("Hitting Back");
             if (currentDireciton == direction.Back)
             {
                 inJunction = true;
@@ -162,13 +171,15 @@ public class PlayerControl : MonoBehaviour {
                 break;
 
         }
-        player.MovePosition(player.position + destination*speed);
+        player.MovePosition(player.position + destination);
+        //player.MovePosition(player.position + destination*speed);
     }
     void changeDirection()  //used to change the direciton of the player
     {
-        Debug.Log("changing direciton");
+       // Debug.Log("changing direciton");
         if(Input.GetAxis("Horizontal") > 0)
         {
+            Debug.Log("Right");
             if (!rightTrig.trig)
             {
                 inJunction = false;
@@ -178,6 +189,7 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
+            Debug.Log("Left");
             if (!leftTrig.trig)
             {
                 inJunction = false;
@@ -187,6 +199,7 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") > 0)
         {
+            Debug.Log("Up");
             if (!forwardTrig.trig)
             {
                 inJunction = false;
@@ -196,6 +209,7 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
+            Debug.Log("Down");
             if (!backTrig.trig)
             {
                 inJunction = false;
