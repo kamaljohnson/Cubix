@@ -38,6 +38,7 @@ public class PlayerControl : MonoBehaviour {
     bool inJunction;
 
     int flag;
+    int Flag = 1;
     void Start () {
         flag = 0;   // gets triggered at the edges when the maze is to be turned 
         speed = 0.035f;
@@ -56,23 +57,25 @@ public class PlayerControl : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-        currentPossition = transform.position;
-        TrigCol();
-        Debug.Log("in Junction : " + inJunction);
-        if(!groundray.onGround && flag == 0)
+        if(Flag == 1)
         {
-            Debug.Log("here1");
-            changePlane();
+            currentPossition = transform.position;
+            TrigCol();
+            Debug.Log("in Junction : " + inJunction);
+            if(!groundray.onGround && flag == 0)
+            {
+                Debug.Log("here1");
+                changePlane();
+            }
+            else if(inJunction)
+            {
+                Debug.Log("here2");
+                flag = 0;
+                changeDirection();
+            }
+            else 
+                Move();
         }
-        else if(inJunction)
-        {
-            Debug.Log("here2");
-            flag = 0;
-            changeDirection();
-        }
-        else 
-            Move();
-
 	}
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
     {
@@ -171,8 +174,10 @@ public class PlayerControl : MonoBehaviour {
                 break;
 
         }
-        player.MovePosition(player.position + destination);
-        //player.MovePosition(player.position + destination*speed);
+        float steps = 0.1f;
+        //player.transform.position = Vector3.MoveTowards(player.transform.position, player.transform.position+destination *2, 2);
+        player.MovePosition(player.position + destination*4);
+        Flag = 0;
     }
     void changeDirection()  //used to change the direciton of the player
     {
