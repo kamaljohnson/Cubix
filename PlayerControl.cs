@@ -41,7 +41,7 @@ public class PlayerControl : MonoBehaviour {
     int Flag = 1;
     void Start () {
         flag = 0;   // gets triggered at the edges when the maze is to be turned 
-        speed = 0.035f;
+        speed = 0.1f;
         currentPossition = transform.position;
         pastPosition = transform.position;
         mazeRotate = Maze.GetComponent<MazeRotation>();
@@ -64,12 +64,10 @@ public class PlayerControl : MonoBehaviour {
             Debug.Log("in Junction : " + inJunction);
             if(!groundray.onGround && flag == 0)
             {
-                Debug.Log("here1");
                 changePlane();
             }
             else if(inJunction)
             {
-                Debug.Log("here2");
                 flag = 0;
                 changeDirection();
             }
@@ -158,26 +156,27 @@ public class PlayerControl : MonoBehaviour {
     }
     void Move() //this funtion will controll the movement on the maze plane 
     {
+        //code to move a single step on the plane 
         switch(currentDireciton)
         {
             case direction.Right:
-                destination = Vector3.right;
+                //destination = player.transform.position + Vector3(2, 0, 0);
                 break;
             case direction.Left:
-                destination = Vector3.left;
+                //destination = player.transform.position + Vector3(2, 0, 0);
                 break;
             case direction.Forward:
-                destination = Vector3.forward;
+                //destination = player.transform.position + Vector3(2, 0, 0);
                 break;
             case direction.Back:
-                destination = Vector3.back;
+                //destination = player.transform.position + Vector3(2, 0, 0);
                 break;
-
         }
-        float steps = 0.1f;
-        //player.transform.position = Vector3.MoveTowards(player.transform.position, player.transform.position+destination *2, 2);
-        player.MovePosition(player.position + destination*4);
-        Flag = 0;
+        destination = Vector3(1, 1, 1);
+        Vector3 startPosition = player.transform.position;
+        player.transform.position = Vector3.Lerp(startPosition, destination, 0.1f);
+
+        //Flag = 0;
     }
     void changeDirection()  //used to change the direciton of the player
     {
