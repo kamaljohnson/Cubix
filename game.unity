@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 376403156}
   - component: {fileID: 376403155}
   m_Layer: 0
-  m_Name: forwardCollider
+  m_Name: leftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 406015150}
   - component: {fileID: 406015149}
   - component: {fileID: 406015148}
+  - component: {fileID: 406015151}
   m_Layer: 0
   m_Name: Walls
   m_TagString: mazeWalls
@@ -357,6 +358,23 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 406015146}
   m_Mesh: {fileID: 4300000, guid: 6b21715e12562a14ea409bec663d5f09, type: 3}
+--- !u!95 &406015151
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 406015146}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 95c961e2cb2a655448e24ed9a56065b7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &788161506
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +387,7 @@ GameObject:
   - component: {fileID: 788161509}
   - component: {fileID: 788161508}
   m_Layer: 0
-  m_Name: rightCollider
+  m_Name: forwardCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -529,7 +547,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1227366772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 4.5, z: 3}
+  m_LocalPosition: {x: -1, y: 4.5, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 146063516}
@@ -563,10 +581,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Maze: {fileID: 1950331792}
-  rightCollider: {fileID: 788161506}
-  leftCollider: {fileID: 2040043563}
-  forwardCollider: {fileID: 376403153}
-  backCollider: {fileID: 1489984627}
+  rightCollider: {fileID: 1489984627}
+  leftCollider: {fileID: 376403153}
+  forwardCollider: {fileID: 788161506}
+  backCollider: {fileID: 2040043563}
   GroundRay: {fileID: 1227366772}
 --- !u!114 &1227366776
 MonoBehaviour:
@@ -746,7 +764,7 @@ GameObject:
   - component: {fileID: 1489984630}
   - component: {fileID: 1489984629}
   m_Layer: 0
-  m_Name: backCollider
+  m_Name: rightCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -835,7 +853,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1950331792}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.316889, y: 2.3168828, z: 2.3168828}
   m_Children:
@@ -844,7 +862,7 @@ Transform:
   - {fileID: 1227366773}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1950331795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -870,7 +888,7 @@ GameObject:
   - component: {fileID: 2040043566}
   - component: {fileID: 2040043565}
   m_Layer: 0
-  m_Name: leftCollider
+  m_Name: backCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

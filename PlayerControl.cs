@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 public class PlayerControl : MonoBehaviour {
 
-    Rigidbody player;
+    Transform player;
     float speed;
     Vector3 destination;    //the next destination
     //the individual colliders for the player 
@@ -35,6 +35,8 @@ public class PlayerControl : MonoBehaviour {
     };
 
     direction currentDireciton;
+    direction directionFlag;
+
     bool inJunction;
 
     int flag;
@@ -52,7 +54,7 @@ public class PlayerControl : MonoBehaviour {
         backTrig = backCollider.GetComponent<triggering>();
 
         currentDireciton = direction.None;
-        player = GetComponent<Rigidbody>();
+        player = GetComponent<Transform>();
         inJunction = true;
 	}
 	
@@ -66,13 +68,18 @@ public class PlayerControl : MonoBehaviour {
             {
                 changePlane();
             }
-            else if(inJunction)
+            else if(!inJunction)
             {
+                
+                Move();
+                
+            }
+            else
+            {
+                directionFlag = direction.None;
                 flag = 0;
                 changeDirection();
-            }
-            else 
-                Move();
+            } 
         }
 	}
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
@@ -160,23 +167,36 @@ public class PlayerControl : MonoBehaviour {
         switch(currentDireciton)
         {
             case direction.Right:
-                //destination = player.transform.position + Vector3(2, 0, 0);
+                if(directionFlag != direction.Right)
+                {
+                    destination = player.localPosition + Vector3.right*2;
+                    directionFlag = direction.Right;
+                }
                 break;
-            case direction.Left:
-                //destination = player.transform.position + Vector3(2, 0, 0);
+            case direction.Left :
+                if( directionFlag != direction.Left)
+                {
+                    destination = player.localPosition + Vector3.left*2;
+                    directionFlag = direction.Left;
+                }
                 break;
             case direction.Forward:
-                //destination = player.transform.position + Vector3(2, 0, 0);
+                if(directionFlag != direction.Forward)
+                {
+                    destination = player.localPosition + Vector3.forward*2;
+                    directionFlag = direction.Forward;
+                }
                 break;
             case direction.Back:
-                //destination = player.transform.position + Vector3(2, 0, 0);
+                if( directionFlag != direction.Back)
+                {
+                    destination = player.localPosition + Vector3.back*2;
+                    directionFlag = direction.Back;
+                }
                 break;
         }
-        destination = Vector3(1, 1, 1);
-        Vector3 startPosition = player.transform.position;
-        player.transform.position = Vector3.Lerp(startPosition, destination, 0.1f);
-
-        //Flag = 0;
+         Debug.Log("currentPos: " + player.localPosition + "destination : " + destination);
+        player.localPosition = Vector3.Lerp(player.localPosition, destination, 0.1f);
     }
     void changeDirection()  //used to change the direciton of the player
     {
