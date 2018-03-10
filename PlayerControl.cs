@@ -23,7 +23,7 @@ public class PlayerControl : MonoBehaviour {
     private triggering backTrig;
     Vector3 pastPosition;
     Vector3 currentPossition;
-    float minMag = 0.000006f;
+    float minMag = 1.0f;
 
     enum direction  //for the direcitons 
     {
@@ -44,8 +44,6 @@ public class PlayerControl : MonoBehaviour {
     void Start () {
         flag = 0;   // gets triggered at the edges when the maze is to be turned 
         speed = 0.1f;
-        currentPossition = transform.position;
-        pastPosition = transform.position;
         mazeRotate = Maze.GetComponent<MazeRotation>();
         groundray = GroundRay.GetComponent<GroundRayCast>();
         rightTrig = rightCollider.GetComponent<triggering>();
@@ -55,13 +53,17 @@ public class PlayerControl : MonoBehaviour {
 
         currentDireciton = direction.None;
         player = GetComponent<Transform>();
+        currentPossition = player.localPosition;
+        pastPosition = currentPossition;
+        destination = player.localPosition;
         inJunction = true;
 	}
 	
 	void FixedUpdate () {
         if(Flag == 1)
         {
-            currentPossition = transform.position;
+            currentPossition = player.localPosition;
+            Debug.Log(currentPossition);
             TrigCol();
             Debug.Log("in Junction : " + inJunction);
             if(!groundray.onGround && flag == 0)
@@ -76,6 +78,7 @@ public class PlayerControl : MonoBehaviour {
             }
             else
             {
+                player.localPosition = destination;
                 directionFlag = direction.None;
                 flag = 0;
                 changeDirection();
@@ -88,7 +91,6 @@ public class PlayerControl : MonoBehaviour {
         float mag = travelled.magnitude;
         if (rightTrig.trig)
         {
-            Debug.Log("Hitting Right");
             if(currentDireciton == direction.Right)
             {
                 inJunction = true;
@@ -107,7 +109,6 @@ public class PlayerControl : MonoBehaviour {
         if (leftTrig.trig)
         {
             
-            Debug.Log("Hitting Left");
             if (currentDireciton == direction.Left)
             {
                 inJunction = true;
@@ -126,7 +127,6 @@ public class PlayerControl : MonoBehaviour {
         if (forwardTrig.trig)
         {
             
-            Debug.Log("Hitting Up");
             if (currentDireciton == direction.Forward)
             {
                 inJunction = true;
@@ -144,7 +144,6 @@ public class PlayerControl : MonoBehaviour {
         }
         if (backTrig.trig)
         {
-            Debug.Log("Hitting Back");
             if (currentDireciton == direction.Back)
             {
                 inJunction = true;
@@ -203,7 +202,6 @@ public class PlayerControl : MonoBehaviour {
        // Debug.Log("changing direciton");
         if(Input.GetAxis("Horizontal") > 0)
         {
-            Debug.Log("Right");
             if (!rightTrig.trig)
             {
                 inJunction = false;
@@ -213,7 +211,6 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Horizontal") < 0)
         {
-            Debug.Log("Left");
             if (!leftTrig.trig)
             {
                 inJunction = false;
@@ -223,7 +220,6 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") > 0)
         {
-            Debug.Log("Up");
             if (!forwardTrig.trig)
             {
                 inJunction = false;
@@ -233,7 +229,6 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
-            Debug.Log("Down");
             if (!backTrig.trig)
             {
                 inJunction = false;
