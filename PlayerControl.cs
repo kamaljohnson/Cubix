@@ -24,6 +24,7 @@ public class PlayerControl : MonoBehaviour {
     Vector3 pastPosition;
     Vector3 currentPossition;
     float minMag = 1.0f;
+    float mag;
 
     enum direction  //for the direcitons 
     {
@@ -38,6 +39,8 @@ public class PlayerControl : MonoBehaviour {
     direction directionFlag;
 
     bool inJunction;
+    bool Moving;
+
 
     int flag;
     int Flag = 1;
@@ -57,24 +60,21 @@ public class PlayerControl : MonoBehaviour {
         pastPosition = currentPossition;
         destination = player.localPosition;
         inJunction = true;
+        Moving = false;
 	}
 	
 	void FixedUpdate () {
         if(Flag == 1)
         {
             currentPossition = player.localPosition;
-            Debug.Log(currentPossition);
             TrigCol();
-            Debug.Log("in Junction : " + inJunction);
             if(!groundray.onGround && flag == 0)
             {
                 changePlane();
             }
             else if(!inJunction)
             {
-                
                 Move();
-                
             }
             else
             {
@@ -82,7 +82,7 @@ public class PlayerControl : MonoBehaviour {
                 directionFlag = direction.None;
                 flag = 0;
                 changeDirection();
-            } 
+            }
         }
 	}
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
@@ -94,6 +94,7 @@ public class PlayerControl : MonoBehaviour {
             if(currentDireciton == direction.Right)
             {
                 inJunction = true;
+                Moving = false;
             }
         }
         else
@@ -103,6 +104,7 @@ public class PlayerControl : MonoBehaviour {
                 if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
                 {
                     inJunction = true;
+                    Moving = false;
                 }
             }
         }
@@ -112,6 +114,7 @@ public class PlayerControl : MonoBehaviour {
             if (currentDireciton == direction.Left)
             {
                 inJunction = true;
+                Moving = false;
             }
         }
         else
@@ -121,6 +124,7 @@ public class PlayerControl : MonoBehaviour {
                 if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
                 {
                     inJunction = true;
+                    Moving = false;
                 }
             }
         }
@@ -130,6 +134,7 @@ public class PlayerControl : MonoBehaviour {
             if (currentDireciton == direction.Forward)
             {
                 inJunction = true;
+                Moving = false;
             }
         }
         else
@@ -139,6 +144,7 @@ public class PlayerControl : MonoBehaviour {
                 if (currentDireciton == direction.Right || currentDireciton == direction.Left)
                 {
                     inJunction = true;
+                    Moving = false;
                 }
             }
         }
@@ -147,6 +153,7 @@ public class PlayerControl : MonoBehaviour {
             if (currentDireciton == direction.Back)
             {
                 inJunction = true;
+                Moving = false;
             }
         }
         else
@@ -156,6 +163,7 @@ public class PlayerControl : MonoBehaviour {
                 if (currentDireciton == direction.Right || currentDireciton == direction.Left)
                 {
                     inJunction = true;
+                    Moving = false;
                 }
             }
         }
@@ -194,13 +202,15 @@ public class PlayerControl : MonoBehaviour {
                 }
                 break;
         }
-         Debug.Log("currentPos: " + player.localPosition + "destination : " + destination);
-        player.localPosition = Vector3.Lerp(player.localPosition, destination, 0.1f);
+        Debug.Log("currentPos: " + player.localPosition + "destination : " + destination);
+        Moving = true;
+        player.localPosition = Vector3.MoveTowards(player.localPosition, destination, 0.1f);
+        player.localPosition = destination;
     }
     void changeDirection()  //used to change the direciton of the player
     {
        // Debug.Log("changing direciton");
-        if(Input.GetAxis("Horizontal") > 0)
+        if(Input.GetAxis("Horizontal") > 0 && !Moving)
         {
             if (!rightTrig.trig)
             {
@@ -209,7 +219,7 @@ public class PlayerControl : MonoBehaviour {
                 currentDireciton = direction.Right;
             }
         }
-        else if (Input.GetAxis("Horizontal") < 0)
+        else if (Input.GetAxis("Horizontal") < 0 && !Moving)
         {
             if (!leftTrig.trig)
             {
@@ -218,7 +228,7 @@ public class PlayerControl : MonoBehaviour {
                 currentDireciton = direction.Left;
             }
         }
-        else if (Input.GetAxis("Vertical") > 0)
+        else if (Input.GetAxis("Vertical") > 0 && !Moving)
         {
             if (!forwardTrig.trig)
             {
@@ -227,7 +237,7 @@ public class PlayerControl : MonoBehaviour {
                 currentDireciton = direction.Forward;
             }
         }
-        else if (Input.GetAxis("Vertical") < 0)
+        else if (Input.GetAxis("Vertical") < 0 && !Moving)
         {
             if (!backTrig.trig)
             {
