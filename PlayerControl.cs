@@ -206,7 +206,6 @@ public class PlayerControl : MonoBehaviour {
                 }
                 break;
         }
-        Debug.Log("currentPos: " + player.localPosition + "destination : " + destination);
         Moving = true;
         player.localPosition = Vector3.MoveTowards(player.localPosition, destination, 0.1f);
     }
