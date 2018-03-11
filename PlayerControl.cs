@@ -74,6 +74,10 @@ public class PlayerControl : MonoBehaviour {
             }
             else if(!inJunction)
             {
+                if(player.localPosition == destination)
+                {
+                    directionFlag = direction.None;
+                }
                 Move();
             }
             else
@@ -205,7 +209,6 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log("currentPos: " + player.localPosition + "destination : " + destination);
         Moving = true;
         player.localPosition = Vector3.MoveTowards(player.localPosition, destination, 0.1f);
-        player.localPosition = destination;
     }
     void changeDirection()  //used to change the direciton of the player
     {
