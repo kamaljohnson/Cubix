@@ -6,7 +6,9 @@ public class PlayerControl : MonoBehaviour {
     Vector3 destination;    //the next destination
     //the individual colliders for the player 
 
+    float BoundaryLimits;
     public GameObject Maze;
+    public GameObject mazeBody;
     private MazeRotation mazeRotate;
 
     public GameObject rightCollider;
@@ -22,10 +24,9 @@ public class PlayerControl : MonoBehaviour {
     private triggering forwardTrig;
     private triggering backTrig;
     Vector3 pastPosition;
-    Vector3 currentPossition;
+    Vector3 currentPosition;
     float minMag = 1.0f;
     float mag;
-
     enum direction  //for the direcitons 
     {
         None,
@@ -37,13 +38,13 @@ public class PlayerControl : MonoBehaviour {
 
     direction currentDireciton;
     direction directionFlag;
-
+    Transform MazeLimits;
     bool inJunction;
     bool Moving;
-
-
     int flag;
+    int FLAG = 1;
     void Start () {
+
         flag = 0;   // gets triggered at the edges when the maze is to be turned 
         speed = 0.1f;
         mazeRotate = Maze.GetComponent<MazeRotation>();
@@ -55,40 +56,72 @@ public class PlayerControl : MonoBehaviour {
 
         currentDireciton = direction.None;
         player = GetComponent<Transform>();
-        currentPossition = player.localPosition;
-        pastPosition = currentPossition;
+        currentPosition = player.localPosition;
+        pastPosition = currentPosition;
         destination = player.localPosition;
         inJunction = true;
         Moving = false;
+        BoundaryLimits = mazeBody.transform.localScale.x + transform.localScale.x/2;
 	}
 	
 	void FixedUpdate () 
     {
-        currentPossition = player.localPosition;
+        Debug.Log(BoundaryLimits);
+        currentPosition = player.localPosition;
         TrigCol();
-        if(!groundray.onGround && flag == 0)
+        if(Mathf.Abs(currentPosition.x) > BoundaryLimits || Mathf.Abs(currentPosition.y) > BoundaryLimits|| Mathf.Abs(currentPosition.z) > BoundaryLimits && flag == 0)
         {
+            if(player.localPosition.x > 4.5f)
+            {
+                player.localPosition = new Vector3(4.5f, player.localPosition.y, player.localPosition.z);
+            }
+            else if(player.localPosition.x < -4.5f)
+            {
+                player.localPosition = new Vector3(-4.5f, player.localPosition.y, player.localPosition.z);
+            }
+            else if(player.localPosition.y > 4.5f)
+            {
+                player.localPosition = new Vector3(player.localPosition.x, 4.5f, player.localPosition.z);
+            }
+            else if(player.localPosition.y < -4.5f)
+            {
+                player.localPosition = new Vector3(player.localPosition.x, -4.5f, player.localPosition.z);
+            }
+            else if(player.localPosition.z > 4.5f)
+            {
+                player.localPosition = new Vector3(player.localPosition.x, player.localPosition.y, 4.5f);
+            }
+            else if(player.localPosition.z < -4.5f)
+            {
+                player.localPosition = new Vector3(player.localPosition.x, player.localPosition.y, -4.5f);
+            }
             changePlane();
         }
         else if(!inJunction)
         {
+
             if(player.localPosition == destination)
             {
                 directionFlag = direction.None;
             }
             Move();
         }
-        else
+        else if(inJunction)
         {
+            Moving = false;
             player.localPosition = destination;
             directionFlag = direction.None;
             flag = 0;
             changeDirection();
         }
 	}
+        //    if(!groundray.onGround && flag == 0)
+       // {
+       //     changePlane();
+       // }
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
     {
-        Vector2 travelled = new Vector2((currentPossition.x - pastPosition.x), (currentPossition.y - pastPosition.y));
+        Vector2 travelled = new Vector2((currentPosition.x - pastPosition.x), (currentPosition.y - pastPosition.y));
         float mag = travelled.magnitude;
         if (rightTrig.trig)
         {
@@ -212,8 +245,9 @@ public class PlayerControl : MonoBehaviour {
         {
             if (!rightTrig.trig)
             {
+                Moving = true;
                 inJunction = false;
-                pastPosition = currentPossition;
+                pastPosition = currentPosition;
                 currentDireciton = direction.Right;
             }
         }
@@ -221,8 +255,9 @@ public class PlayerControl : MonoBehaviour {
         {
             if (!leftTrig.trig)
             {
+                Moving = true;
                 inJunction = false;
-                pastPosition = currentPossition;
+                pastPosition = currentPosition;
                 currentDireciton = direction.Left;
             }
         }
@@ -230,8 +265,9 @@ public class PlayerControl : MonoBehaviour {
         {
             if (!forwardTrig.trig)
             {
+                Moving = true;
                 inJunction = false;
-                pastPosition = currentPossition;
+                pastPosition = currentPosition;
                 currentDireciton = direction.Forward;
             }
         }
@@ -239,15 +275,16 @@ public class PlayerControl : MonoBehaviour {
         {
             if (!backTrig.trig)
             {
+                Moving = true;
                 inJunction = false;
-                pastPosition = currentPossition;
+                pastPosition = currentPosition;
                 currentDireciton = direction.Back;
             }
         }
     }
     void changePlane()  //for changing the current face of the maze 
     {
-        destination = player.localPosition + Vector3.down;
+        destination = player.localPosition + Vector3.down*1.5f;
         player.localPosition = destination;
         if(currentDireciton == direction.Right)
         {
