@@ -66,9 +66,13 @@ public class PlayerControl : MonoBehaviour {
 	
 	void FixedUpdate () 
     {
-        Debug.Log(BoundaryLimits);
+
+        Debug.Log("FLAG : " + flag);
         currentPosition = player.localPosition;
-        TrigCol();
+        if(flag == 0)
+        {
+            TrigCol();
+        }
         if(Mathf.Abs(currentPosition.x) > BoundaryLimits || Mathf.Abs(currentPosition.y) > BoundaryLimits|| Mathf.Abs(currentPosition.z) > BoundaryLimits && flag == 0)
         {
             if(player.localPosition.x > 4.5f)
@@ -100,10 +104,15 @@ public class PlayerControl : MonoBehaviour {
         else if(!inJunction)
         {
 
-            if(player.localPosition == destination)
+            if(player.localPosition == destination && flag == 0)
             {
                 directionFlag = direction.None;
             }
+            else if(flag == 1)
+            {
+                currentDireciton = directionFlag;
+            }
+            Debug.Log("Direction flag : " + directionFlag);
             Move();
         }
         else if(inJunction)
@@ -115,10 +124,7 @@ public class PlayerControl : MonoBehaviour {
             changeDirection();
         }
 	}
-        //    if(!groundray.onGround && flag == 0)
-       // {
-       //     changePlane();
-       // }
+
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
     {
         Vector2 travelled = new Vector2((currentPosition.x - pastPosition.x), (currentPosition.y - pastPosition.y));
@@ -205,6 +211,7 @@ public class PlayerControl : MonoBehaviour {
     void Move() //this funtion will controll the movement on the maze plane 
     {
         //code to move a single step on the plane 
+        Debug.Log("moving. . .");
         switch(currentDireciton)
         {
             case direction.Right:
@@ -232,10 +239,16 @@ public class PlayerControl : MonoBehaviour {
                 if( directionFlag != direction.Back)
                 {
                     destination = player.localPosition + Vector3.back*2;
+                    Debug.Log("destination : " + destination);
                     directionFlag = direction.Back;
                 }
                 break;
         }
+        if(player.localPosition == destination)
+        {
+            directionFlag = direction.None;
+        }
+        Debug.Log("current location : " + player.transform.localPosition);
         Moving = true;
         player.localPosition = Vector3.MoveTowards(player.localPosition, destination, 0.1f);
     }
@@ -286,33 +299,28 @@ public class PlayerControl : MonoBehaviour {
     {
         destination = player.localPosition + Vector3.down*1.5f;
         player.localPosition = destination;
+        mazeRotate.rotate = true;
         if(currentDireciton == direction.Right)
         {
-            flag = 1;
             mazeRotate.rotateDirection = (int)direction.Right;
             transform.Rotate(0, 0, -90);
-            mazeRotate.rotate = true;
+            
         }
         else if (currentDireciton == direction.Left)
         {
-            flag = 1;
             mazeRotate.rotateDirection = (int)direction.Left;
             transform.Rotate(0, 0, 90);
-            mazeRotate.rotate = true;
         }
         else if (currentDireciton == direction.Forward)
         {
-            flag = 1;
             mazeRotate.rotateDirection = (int)direction.Forward;
             transform.Rotate(90, 0, 0);
-            mazeRotate.rotate = true;
         }
         else if (currentDireciton == direction.Back)
         {
-            flag = 1;
             mazeRotate.rotateDirection = (int)direction.Back;
             transform.Rotate(-90, 0, 0);
-            mazeRotate.rotate = true;
         }
+        flag = 1;
     }
 }
