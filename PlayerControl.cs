@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour {
     private triggering backTrig;
     Vector3 pastPosition;
     Vector3 currentPosition;
-    float minMag = 1.0f;
+    float minMag = 1.999f;
     float mag;
     enum direction  //for the direcitons 
     {
@@ -67,7 +67,7 @@ public class PlayerControl : MonoBehaviour {
 	void FixedUpdate () 
     {
 
-        Debug.Log("FLAG : " + flag);
+        Debug.Log("Moving : " + Moving);
         currentPosition = player.localPosition;
         if(flag == 0)
         {
@@ -150,7 +150,6 @@ public class PlayerControl : MonoBehaviour {
         }
         if (leftTrig.trig)
         {
-            
             if (currentDireciton == direction.Left)
             {
                 inJunction = true;
