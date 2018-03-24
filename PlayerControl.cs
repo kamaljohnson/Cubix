@@ -43,7 +43,7 @@ public class PlayerControl : MonoBehaviour {
     bool Moving;
     int flag;
     int FLAG = 1;
-
+    Vector3 directionVector;
     void Start () {
 
         flag = 0;   // gets triggered at the edges when the maze is to be turned 
@@ -216,34 +216,36 @@ public class PlayerControl : MonoBehaviour {
         switch(currentDirection)
         {
             case direction.Right:
-                Debug.Log("Right : " + Vector3.right);
                 if(directionFlag != direction.Right)
                 {
-                    destination = player.localPosition + new Vector3(2, 0, 0);
+                    directionVector = new Vector3(2, 0 , 0);
+                    destination = player.localPosition + directionVector;
+
                     directionFlag = direction.Right;
                 }
                 break;
             case direction.Left :
-                Debug.Log("Left : " + Vector3.left);
                 if( directionFlag != direction.Left)
                 {
-                    destination = player.localPosition + new Vector3(-2, 0, 0);
+                    
+                    directionVector = new Vector3(-2, 0 , 0);
+                    destination = player.localPosition + directionVector;
                     directionFlag = direction.Left;
                 }
                 break;
             case direction.Forward:
-                Debug.Log("Forward : " + Vector3.forward);
                 if(directionFlag != direction.Forward)
                 {
-                    destination = player.localPosition + new Vector3(0, 0, 2);
+                    directionVector = new Vector3(0, 0 , 2);
+                    destination = player.localPosition + directionVector;
                     directionFlag = direction.Forward;
                 }
                 break;
             case direction.Back:
-                Debug.Log("Back : " + Vector3.back);
                 if( directionFlag != direction.Back)
                 {
-                    destination = player.localPosition + new Vector3(0, 0, -2);
+                    directionVector = new Vector3(0, 0 , -2);
+                    destination = player.localPosition + directionVector;
                     directionFlag = direction.Back;
                 }
                 break;
@@ -302,12 +304,14 @@ public class PlayerControl : MonoBehaviour {
     void changePlane()  //for changing the current face of the maze 
     {
         direction temp = currentDirection;
-        destination = player.localPosition + Vector3.down*1.5f;
+        destination = player.localPosition + new Vector3(0, -1.5f, 0);
         player.localPosition = destination;
         currentDirection = temp;
         mazeRotate.rotate = true;
         inJunction = true;
-        if(currentDirection == direction.Right)
+        Vector3 vtemp = new Vector3(directionVector.x * 45, directionVector.y * 45, directionVector.z * 45);;
+        transform.Rotate(vtemp.z, vtemp.y, vtemp.x);
+        /*if(currentDirection == direction.Right)
         {
             mazeRotate.rotateDirection = (int)direction.Right;
             transform.Rotate(0, 0, -90);
@@ -327,7 +331,7 @@ public class PlayerControl : MonoBehaviour {
         {
             mazeRotate.rotateDirection = (int)direction.Back;
             transform.Rotate(-90, 0, 0);
-        }
+        }*/
         flag = 1;
     }
 }
