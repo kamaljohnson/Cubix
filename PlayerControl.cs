@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour {
     private triggering backTrig;
     Vector3 pastPosition;
     Vector3 currentPosition;
-    float minMag = 1.999f;
+    float minMag = 2.0f;
     float mag;
     enum direction  //for the direcitons 
     {
@@ -36,13 +36,14 @@ public class PlayerControl : MonoBehaviour {
         Back
     };
 
-    direction currentDireciton;
+    direction currentDirection;
     direction directionFlag;
     Transform MazeLimits;
     bool inJunction;
     bool Moving;
     int flag;
     int FLAG = 1;
+
     void Start () {
 
         flag = 0;   // gets triggered at the edges when the maze is to be turned 
@@ -54,7 +55,7 @@ public class PlayerControl : MonoBehaviour {
         forwardTrig = forwardCollider.GetComponent<triggering>();
         backTrig = backCollider.GetComponent<triggering>();
 
-        currentDireciton = direction.None;
+        currentDirection = direction.None;
         player = GetComponent<Transform>();
         currentPosition = player.localPosition;
         pastPosition = currentPosition;
@@ -67,7 +68,9 @@ public class PlayerControl : MonoBehaviour {
 	void FixedUpdate () 
     {
 
+        Debug.Log("Junction : " + inJunction);
         Debug.Log("Moving : " + Moving);
+        Debug.Log("Direction : " + currentDirection);
         currentPosition = player.localPosition;
         if(flag == 0)
         {
@@ -82,6 +85,7 @@ public class PlayerControl : MonoBehaviour {
             else if(player.localPosition.x < -4.5f)
             {
                 player.localPosition = new Vector3(-4.5f, player.localPosition.y, player.localPosition.z);
+
             }
             else if(player.localPosition.y > 4.5f)
             {
@@ -110,9 +114,8 @@ public class PlayerControl : MonoBehaviour {
             }
             else if(flag == 1)
             {
-                currentDireciton = directionFlag;
+                //currentDirection = directionFlag;
             }
-            Debug.Log("Direction flag : " + directionFlag);
             Move();
         }
         else if(inJunction)
@@ -131,7 +134,7 @@ public class PlayerControl : MonoBehaviour {
         float mag = travelled.magnitude;
         if (rightTrig.trig)
         {
-            if(currentDireciton == direction.Right)
+            if(currentDirection == direction.Right)
             {
                 inJunction = true;
                 Moving = false;
@@ -139,9 +142,9 @@ public class PlayerControl : MonoBehaviour {
         }
         else
         {
-            if (mag> minMag)
+            if (mag >= minMag)
             {
-                if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
+                if (currentDirection == direction.Forward || currentDirection == direction.Back)
                 {
                     inJunction = true;
                     Moving = false;
@@ -150,7 +153,7 @@ public class PlayerControl : MonoBehaviour {
         }
         if (leftTrig.trig)
         {
-            if (currentDireciton == direction.Left)
+            if (currentDirection == direction.Left)
             {
                 inJunction = true;
                 Moving = false;
@@ -158,9 +161,9 @@ public class PlayerControl : MonoBehaviour {
         }
         else
         {
-            if (mag > minMag)
+            if (mag >= minMag)
             {
-                if (currentDireciton == direction.Forward || currentDireciton == direction.Back)
+                if (currentDirection == direction.Forward || currentDirection == direction.Back)
                 {
                     inJunction = true;
                     Moving = false;
@@ -170,7 +173,7 @@ public class PlayerControl : MonoBehaviour {
         if (forwardTrig.trig)
         {
             
-            if (currentDireciton == direction.Forward)
+            if (currentDirection == direction.Forward)
             {
                 inJunction = true;
                 Moving = false;
@@ -178,9 +181,9 @@ public class PlayerControl : MonoBehaviour {
         }
         else
         {
-            if (mag > minMag)
+            if (mag >= minMag)
             {
-                if (currentDireciton == direction.Right || currentDireciton == direction.Left)
+                if (currentDirection == direction.Right || currentDirection == direction.Left)
                 {
                     inJunction = true;
                     Moving = false;
@@ -189,7 +192,7 @@ public class PlayerControl : MonoBehaviour {
         }
         if (backTrig.trig)
         {
-            if (currentDireciton == direction.Back)
+            if (currentDirection == direction.Back)
             {
                 inJunction = true;
                 Moving = false;
@@ -197,9 +200,9 @@ public class PlayerControl : MonoBehaviour {
         }
         else
         {
-            if (mag > minMag)
+            if (mag >= minMag)
             {
-                if (currentDireciton == direction.Right || currentDireciton == direction.Left)
+                if (currentDirection == direction.Right || currentDirection == direction.Left)
                 {
                     inJunction = true;
                     Moving = false;
@@ -210,35 +213,37 @@ public class PlayerControl : MonoBehaviour {
     void Move() //this funtion will controll the movement on the maze plane 
     {
         //code to move a single step on the plane 
-        Debug.Log("moving. . .");
-        switch(currentDireciton)
+        switch(currentDirection)
         {
             case direction.Right:
+                Debug.Log("Right : " + Vector3.right);
                 if(directionFlag != direction.Right)
                 {
-                    destination = player.localPosition + Vector3.right*2;
+                    destination = player.localPosition + new Vector3(2, 0, 0);
                     directionFlag = direction.Right;
                 }
                 break;
             case direction.Left :
+                Debug.Log("Left : " + Vector3.left);
                 if( directionFlag != direction.Left)
                 {
-                    destination = player.localPosition + Vector3.left*2;
+                    destination = player.localPosition + new Vector3(-2, 0, 0);
                     directionFlag = direction.Left;
                 }
                 break;
             case direction.Forward:
+                Debug.Log("Forward : " + Vector3.forward);
                 if(directionFlag != direction.Forward)
                 {
-                    destination = player.localPosition + Vector3.forward*2;
+                    destination = player.localPosition + new Vector3(0, 0, 2);
                     directionFlag = direction.Forward;
                 }
                 break;
             case direction.Back:
+                Debug.Log("Back : " + Vector3.back);
                 if( directionFlag != direction.Back)
                 {
-                    destination = player.localPosition + Vector3.back*2;
-                    Debug.Log("destination : " + destination);
+                    destination = player.localPosition + new Vector3(0, 0, -2);
                     directionFlag = direction.Back;
                 }
                 break;
@@ -247,9 +252,9 @@ public class PlayerControl : MonoBehaviour {
         {
             directionFlag = direction.None;
         }
-        Debug.Log("current location : " + player.transform.localPosition);
         Moving = true;
         player.localPosition = Vector3.MoveTowards(player.localPosition, destination, 0.1f);
+        Debug.Log("Destination" + destination);
     }
     void changeDirection()  //used to change the direciton of the player
     {
@@ -260,7 +265,7 @@ public class PlayerControl : MonoBehaviour {
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
-                currentDireciton = direction.Right;
+                currentDirection = direction.Right;
             }
         }
         else if (Input.GetAxis("Horizontal") < 0 && !Moving)
@@ -270,7 +275,7 @@ public class PlayerControl : MonoBehaviour {
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
-                currentDireciton = direction.Left;
+                currentDirection = direction.Left;
             }
         }
         else if (Input.GetAxis("Vertical") > 0 && !Moving)
@@ -280,7 +285,7 @@ public class PlayerControl : MonoBehaviour {
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
-                currentDireciton = direction.Forward;
+                currentDirection = direction.Forward;
             }
         }
         else if (Input.GetAxis("Vertical") < 0 && !Moving)
@@ -290,32 +295,35 @@ public class PlayerControl : MonoBehaviour {
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
-                currentDireciton = direction.Back;
+                currentDirection = direction.Back;
             }
         }
     }
     void changePlane()  //for changing the current face of the maze 
     {
+        direction temp = currentDirection;
         destination = player.localPosition + Vector3.down*1.5f;
         player.localPosition = destination;
+        currentDirection = temp;
         mazeRotate.rotate = true;
-        if(currentDireciton == direction.Right)
+        inJunction = true;
+        if(currentDirection == direction.Right)
         {
             mazeRotate.rotateDirection = (int)direction.Right;
             transform.Rotate(0, 0, -90);
             
         }
-        else if (currentDireciton == direction.Left)
+        else if (currentDirection == direction.Left)
         {
             mazeRotate.rotateDirection = (int)direction.Left;
             transform.Rotate(0, 0, 90);
         }
-        else if (currentDireciton == direction.Forward)
+        else if (currentDirection == direction.Forward)
         {
             mazeRotate.rotateDirection = (int)direction.Forward;
             transform.Rotate(90, 0, 0);
         }
-        else if (currentDireciton == direction.Back)
+        else if (currentDirection == direction.Back)
         {
             mazeRotate.rotateDirection = (int)direction.Back;
             transform.Rotate(-90, 0, 0);

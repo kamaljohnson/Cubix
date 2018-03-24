@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44121096, g: 0.48999125, b: 0.57005435, a: 1}
+  m_IndirectSpecularColor: {r: 0.45126152, g: 0.50095516, b: 0.5734218, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -291,13 +291,13 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 406015146}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.9605677, y: 3.9605649, z: 3.9605649}
   m_Children: []
   m_Father: {fileID: 1950331794}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!64 &406015148
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -459,7 +459,7 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1016254000}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
@@ -547,7 +547,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1227366772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 4.5, z: 3}
+  m_LocalPosition: {x: -1, y: 4.5, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 146063516}
@@ -581,6 +581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Maze: {fileID: 1950331792}
+  mazeBody: {fileID: 1016254000}
   rightCollider: {fileID: 1489984627}
   leftCollider: {fileID: 376403153}
   forwardCollider: {fileID: 788161506}
@@ -620,13 +621,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1230240754}
-  m_LocalRotation: {x: -0.33828777, y: -0.67671967, z: 0.65290695, w: -0.03639273}
-  m_LocalPosition: {x: -22.16129, y: 25.891235, z: 22.212656}
+  m_LocalRotation: {x: -0.27123904, y: -0.56584126, z: 0.66267467, w: 0.4087975}
+  m_LocalPosition: {x: 22.7, y: 47.2, z: -30.1}
   m_LocalScale: {x: 0.34170794, y: 0.34170783, z: 0.34170803}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 65.270004, y: -110.24801, z: 101.228004}
+  m_LocalEulerAnglesHint: {x: 31.882002, y: -75.507, z: 91.715004}
 --- !u!108 &1230240756
 Light:
   m_ObjectHideFlags: 0
@@ -688,13 +689,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1316046719}
-  m_LocalRotation: {x: 0.26050967, y: -0.34501353, z: 0.10029774, w: 0.89612544}
-  m_LocalPosition: {x: 22.2, y: 20.4, z: -25.6}
+  m_LocalRotation: {x: 0.24162845, y: -0.3461567, z: 0.09275242, w: 0.9017695}
+  m_LocalPosition: {x: 23.5, y: 20.7, z: -25.2}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 147.581, y: -222.114, z: -180}
+  m_LocalEulerAnglesHint: {x: 150, y: -222, z: -180}
 --- !u!81 &1316046721
 AudioListener:
   m_ObjectHideFlags: 0
@@ -736,7 +737,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25
+  orthographic size: 20.445639
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -875,6 +876,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotate: 0
+  mazeBody: {fileID: 1016254000}
+  mazeWall: {fileID: 406015146}
   rotateDirection: 0
 --- !u!1 &2040043563
 GameObject:

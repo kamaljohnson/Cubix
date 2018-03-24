@@ -5,6 +5,8 @@ using UnityEngine;
 public class MazeRotation : MonoBehaviour {
 
     public bool rotate;
+    public GameObject mazeBody;
+    public GameObject mazeWall;
     enum Direction  //for the direcitons 
     {
         None,
@@ -15,6 +17,7 @@ public class MazeRotation : MonoBehaviour {
     };
     public int rotateDirection;
     int counter;
+
 	void FixedUpdate () 
     {
         if (rotate)
@@ -40,6 +43,7 @@ public class MazeRotation : MonoBehaviour {
             {
                 rotate = false;
                 counter = 0;
+
             }
         }
             
