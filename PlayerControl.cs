@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour {
     private triggering backTrig;
     Vector3 pastPosition;
     Vector3 currentPosition;
-    float minMag = 2.0f;
+    float minMag = 1.9999f;
     float mag;
     enum direction  //for the direcitons 
     {
@@ -44,6 +44,12 @@ public class PlayerControl : MonoBehaviour {
     int flag;
     int FLAG = 1;
     Vector3 directionVector;
+    
+    Vector3 localForward;
+    Vector3 localBack;
+    Vector3 localRight;
+    Vector3 localLeft;
+    Vector3 localDown;
     void Start () {
 
         flag = 0;   // gets triggered at the edges when the maze is to be turned 
@@ -67,7 +73,13 @@ public class PlayerControl : MonoBehaviour {
 	
 	void FixedUpdate () 
     {
-
+        //to getting the local vectors in the respected directions 
+        localForward = transform.parent.InverseTransformDirection(transform.forward);
+        localRight = transform.parent.InverseTransformDirection(transform.right);
+        localLeft = localRight*-1;
+        localBack = localForward*-1;
+        localDown = transform.parent.InverseTransformDirection(transform.up) * -1;
+        
         Debug.Log("Junction : " + inJunction);
         Debug.Log("Moving : " + Moving);
         Debug.Log("Direction : " + currentDirection);
@@ -114,7 +126,9 @@ public class PlayerControl : MonoBehaviour {
             }
             else if(flag == 1)
             {
-                //currentDirection = directionFlag;
+                currentDirection = directionFlag;
+                directionFlag = direction.None;
+                flag = 0;
             }
             Move();
         }
@@ -123,7 +137,6 @@ public class PlayerControl : MonoBehaviour {
             Moving = false;
             player.localPosition = destination;
             directionFlag = direction.None;
-            flag = 0;
             changeDirection();
         }
 	}
@@ -213,14 +226,14 @@ public class PlayerControl : MonoBehaviour {
     void Move() //this funtion will controll the movement on the maze plane 
     {
         //code to move a single step on the plane 
-        switch(currentDirection)
+        Debug.Log("Moving to : " + currentDirection);
+        switch(currentDirection)    
         {
             case direction.Right:
                 if(directionFlag != direction.Right)
                 {
-                    directionVector = new Vector3(2, 0 , 0);
-                    destination = player.localPosition + directionVector;
-
+                    //directionVector = new Vector3(2, 0 , 0);
+                    destination = player.localPosition + localRight * 2;
                     directionFlag = direction.Right;
                 }
                 break;
@@ -228,24 +241,24 @@ public class PlayerControl : MonoBehaviour {
                 if( directionFlag != direction.Left)
                 {
                     
-                    directionVector = new Vector3(-2, 0 , 0);
-                    destination = player.localPosition + directionVector;
+                    //directionVector = new Vector3(-2, 0 , 0);
+                    destination = player.localPosition + localLeft*2;
                     directionFlag = direction.Left;
                 }
                 break;
             case direction.Forward:
                 if(directionFlag != direction.Forward)
                 {
-                    directionVector = new Vector3(0, 0 , 2);
-                    destination = player.localPosition + directionVector;
+                    //directionVector = new Vector3(0, 0 , 2);
+                    destination = player.localPosition + localForward;
                     directionFlag = direction.Forward;
                 }
                 break;
             case direction.Back:
                 if( directionFlag != direction.Back)
                 {
-                    directionVector = new Vector3(0, 0 , -2);
-                    destination = player.localPosition + directionVector;
+                    //directionVector = new Vector3(0, 0 , -2);
+                    destination = player.localPosition + localBack*2;
                     directionFlag = direction.Back;
                 }
                 break;
@@ -303,35 +316,32 @@ public class PlayerControl : MonoBehaviour {
     }
     void changePlane()  //for changing the current face of the maze 
     {
-        direction temp = currentDirection;
-        destination = player.localPosition + new Vector3(0, -1.5f, 0);
+        direction temp = directionFlag;
+        destination = player.localPosition + localDown*1.5f;
         player.localPosition = destination;
-        currentDirection = temp;
+        directionFlag = temp;
         mazeRotate.rotate = true;
-        inJunction = true;
-        Vector3 vtemp = new Vector3(directionVector.x * 45, directionVector.y * 45, directionVector.z * 45);;
-        transform.Rotate(vtemp.z, vtemp.y, vtemp.x);
-        /*if(currentDirection == direction.Right)
+
+        if(currentDirection == direction.Right)
         {
-            mazeRotate.rotateDirection = (int)direction.Right;
-            transform.Rotate(0, 0, -90);
-            
+            mazeRotate.rotateDirection = localForward * 2;
+            transform.Rotate(localForward * -90);
         }
         else if (currentDirection == direction.Left)
         {
-            mazeRotate.rotateDirection = (int)direction.Left;
-            transform.Rotate(0, 0, 90);
+            mazeRotate.rotateDirection = localBack * 2;
+            transform.Rotate(localBack * -90);
         }
         else if (currentDirection == direction.Forward)
         {
-            mazeRotate.rotateDirection = (int)direction.Forward;
-            transform.Rotate(90, 0, 0);
+            mazeRotate.rotateDirection = localLeft * 2;
+            transform.Rotate(localLeft * -90);
         }
         else if (currentDirection == direction.Back)
         {
-            mazeRotate.rotateDirection = (int)direction.Back;
-            transform.Rotate(-90, 0, 0);
-        }*/
+            mazeRotate.rotateDirection = localRight * 2;
+            transform.Rotate(localRight * -90);
+        }
         flag = 1;
     }
 }

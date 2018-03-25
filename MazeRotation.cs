@@ -15,7 +15,7 @@ public class MazeRotation : MonoBehaviour {
         Forward,
         Back
     };
-    public int rotateDirection;
+    public Vector3 rotateDirection;
     int counter;
 
 	void FixedUpdate () 
@@ -23,7 +23,8 @@ public class MazeRotation : MonoBehaviour {
         if (rotate)
         {
             counter++;
-            if (rotateDirection == (int)Direction.Right)
+            transform.Rotate(rotateDirection);
+            /*if (rotateDirection == (int)Direction.Right)
             {
                 transform.Rotate(0, 0, 2);
             }
@@ -38,7 +39,7 @@ public class MazeRotation : MonoBehaviour {
             else if (rotateDirection == (int)Direction.Back)
             {
                 transform.Rotate(2, 0, 0);
-            }
+            }*/
             if (counter == 45)
             {
                 rotate = false;
