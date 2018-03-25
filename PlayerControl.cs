@@ -25,7 +25,7 @@ public class PlayerControl : MonoBehaviour {
     private triggering backTrig;
     Vector3 pastPosition;
     Vector3 currentPosition;
-    float minMag = 1.9999f;
+    float minMag = 1.7f;
     float mag;
     enum direction  //for the direcitons 
     {
@@ -74,15 +74,14 @@ public class PlayerControl : MonoBehaviour {
 	void FixedUpdate () 
     {
         //to getting the local vectors in the respected directions 
+        Debug.Log("current Direction : " + currentDirection);
+        Debug.Log("Direction Flag : " + directionFlag);
         localForward = transform.parent.InverseTransformDirection(transform.forward);
         localRight = transform.parent.InverseTransformDirection(transform.right);
         localLeft = localRight*-1;
         localBack = localForward*-1;
         localDown = transform.parent.InverseTransformDirection(transform.up) * -1;
         
-        Debug.Log("Junction : " + inJunction);
-        Debug.Log("Moving : " + Moving);
-        Debug.Log("Direction : " + currentDirection);
         currentPosition = player.localPosition;
         if(flag == 0)
         {
@@ -143,7 +142,7 @@ public class PlayerControl : MonoBehaviour {
 
     void TrigCol()  //manupulating the data of the triggered colliders RLFB
     {
-        Vector2 travelled = new Vector2((currentPosition.x - pastPosition.x), (currentPosition.y - pastPosition.y));
+        Vector3 travelled = new Vector3((currentPosition.x - pastPosition.x), (currentPosition.y - pastPosition.y),(currentPosition.z - pastPosition.z) );
         float mag = travelled.magnitude;
         if (rightTrig.trig)
         {
@@ -155,7 +154,7 @@ public class PlayerControl : MonoBehaviour {
         }
         else
         {
-            if (mag >= minMag)
+            if (mag > minMag)
             {
                 if (currentDirection == direction.Forward || currentDirection == direction.Back)
                 {
@@ -226,39 +225,37 @@ public class PlayerControl : MonoBehaviour {
     void Move() //this funtion will controll the movement on the maze plane 
     {
         //code to move a single step on the plane 
-        Debug.Log("Moving to : " + currentDirection);
         switch(currentDirection)    
         {
             case direction.Right:
                 if(directionFlag != direction.Right)
                 {
-                    //directionVector = new Vector3(2, 0 , 0);
+                    Debug.Log("here");
                     destination = player.localPosition + localRight * 2;
                     directionFlag = direction.Right;
                 }
                 break;
             case direction.Left :
                 if( directionFlag != direction.Left)
-                {
-                    
-                    //directionVector = new Vector3(-2, 0 , 0);
-                    destination = player.localPosition + localLeft*2;
+                {        
+                    Debug.Log("here");
+                    destination = player.localPosition + localLeft * 2;
                     directionFlag = direction.Left;
                 }
                 break;
             case direction.Forward:
                 if(directionFlag != direction.Forward)
                 {
-                    //directionVector = new Vector3(0, 0 , 2);
-                    destination = player.localPosition + localForward;
+                    Debug.Log("here");
+                    destination = player.localPosition + localForward * 2;
                     directionFlag = direction.Forward;
                 }
                 break;
             case direction.Back:
                 if( directionFlag != direction.Back)
                 {
-                    //directionVector = new Vector3(0, 0 , -2);
-                    destination = player.localPosition + localBack*2;
+                    Debug.Log("here");
+                    destination = player.localPosition + localBack * 2;
                     directionFlag = direction.Back;
                 }
                 break;
@@ -269,7 +266,6 @@ public class PlayerControl : MonoBehaviour {
         }
         Moving = true;
         player.localPosition = Vector3.MoveTowards(player.localPosition, destination, 0.1f);
-        Debug.Log("Destination" + destination);
     }
     void changeDirection()  //used to change the direciton of the player
     {
@@ -277,6 +273,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (!rightTrig.trig)
             {
+                Debug.Log("Right");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
@@ -287,6 +284,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (!leftTrig.trig)
             {
+                Debug.Log("Left");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
@@ -297,6 +295,7 @@ public class PlayerControl : MonoBehaviour {
         {
             if (!forwardTrig.trig)
             {
+                Debug.Log("Forward");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
@@ -305,8 +304,10 @@ public class PlayerControl : MonoBehaviour {
         }
         else if (Input.GetAxis("Vertical") < 0 && !Moving)
         {
+            
             if (!backTrig.trig)
             {
+                Debug.Log("Back");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
@@ -321,6 +322,7 @@ public class PlayerControl : MonoBehaviour {
         player.localPosition = destination;
         directionFlag = temp;
         mazeRotate.rotate = true;
+        inJunction = true;
 
         if(currentDirection == direction.Right)
         {
@@ -342,6 +344,6 @@ public class PlayerControl : MonoBehaviour {
             mazeRotate.rotateDirection = localRight * 2;
             transform.Rotate(localRight * -90);
         }
-        flag = 1;
+        //flag = 1;
     }
 }
