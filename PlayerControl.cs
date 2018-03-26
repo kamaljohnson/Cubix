@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour {
     Vector3 destination;    //the next destination
     //the individual colliders for the player 
 
+    SwipeControl swipe;
     float BoundaryLimits;
     public GameObject Maze;
     public GameObject mazeBody;
@@ -35,9 +36,10 @@ public class PlayerControl : MonoBehaviour {
         Forward,
         Back
     };
-
+    direction SwipeData;
     direction currentDirection;
     direction directionFlag;
+
     Transform MazeLimits;
     bool inJunction;
     bool Moving;
@@ -51,6 +53,8 @@ public class PlayerControl : MonoBehaviour {
     Vector3 localDown;
     void Start () {
 
+        swipe = GetComponent<SwipeControl>();
+        SwipeData = direction.None;
         speed = 0.1f;
         mazeRotate = Maze.GetComponent<MazeRotation>();
         groundray = GroundRay.GetComponent<GroundRayCast>();
@@ -252,7 +256,8 @@ public class PlayerControl : MonoBehaviour {
     }
     void changeDirection()  //used to change the direciton of the player
     {
-        if(Input.GetAxis("Horizontal") > 0)
+        SwipeData = swipe.SwipeInput();
+        if(SwipeData == direction.Right)
         {
             if (!rightTrig.trig)
             {
@@ -262,7 +267,7 @@ public class PlayerControl : MonoBehaviour {
                 currentDirection = direction.Right;
             }
         }
-        else if (Input.GetAxis("Horizontal") < 0)
+        else if (SwipeData == direction.Left)
         {
             if (!leftTrig.trig)
             {
@@ -272,7 +277,7 @@ public class PlayerControl : MonoBehaviour {
                 currentDirection = direction.Left;
             }
         }
-        else if (Input.GetAxis("Vertical") > 0)
+        else if (SwipeData == direction.Forward)
         {
             if (!forwardTrig.trig)
             {
@@ -282,7 +287,7 @@ public class PlayerControl : MonoBehaviour {
                 currentDirection = direction.Forward;
             }
         }
-        else if (Input.GetAxis("Vertical") < 0)
+        else if (SwipeData == direction.Back)
         {
             
             if (!backTrig.trig)
