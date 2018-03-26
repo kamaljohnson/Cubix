@@ -118,7 +118,7 @@ public class PlayerControl : MonoBehaviour {
             }
             Move();
         }
-        else if(inJunction)
+        else if(inJunction && !mazeRotate.rotate)
         {
             Moving = false;
             player.localPosition = destination;
@@ -217,7 +217,6 @@ public class PlayerControl : MonoBehaviour {
             case direction.Right:
                 if(directionFlag != direction.Right)
                 {
-                    Debug.Log("here");
                     destination = player.localPosition + localRight * 2;
                     directionFlag = direction.Right;
                 }
@@ -225,7 +224,6 @@ public class PlayerControl : MonoBehaviour {
             case direction.Left :
                 if( directionFlag != direction.Left)
                 {        
-                    Debug.Log("here");
                     destination = player.localPosition + localLeft * 2;
                     directionFlag = direction.Left;
                 }
@@ -233,7 +231,6 @@ public class PlayerControl : MonoBehaviour {
             case direction.Forward:
                 if(directionFlag != direction.Forward)
                 {
-                    Debug.Log("here");
                     destination = player.localPosition + localForward * 2;
                     directionFlag = direction.Forward;
                 }
@@ -241,7 +238,6 @@ public class PlayerControl : MonoBehaviour {
             case direction.Back:
                 if( directionFlag != direction.Back)
                 {
-                    Debug.Log("here");
                     destination = player.localPosition + localBack * 2;
                     directionFlag = direction.Back;
                 }
@@ -256,45 +252,41 @@ public class PlayerControl : MonoBehaviour {
     }
     void changeDirection()  //used to change the direciton of the player
     {
-        if(Input.GetAxis("Horizontal") > 0 && !Moving)
+        if(Input.GetAxis("Horizontal") > 0)
         {
             if (!rightTrig.trig)
             {
-                Debug.Log("Right");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
                 currentDirection = direction.Right;
             }
         }
-        else if (Input.GetAxis("Horizontal") < 0 && !Moving)
+        else if (Input.GetAxis("Horizontal") < 0)
         {
             if (!leftTrig.trig)
             {
-                Debug.Log("Left");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
                 currentDirection = direction.Left;
             }
         }
-        else if (Input.GetAxis("Vertical") > 0 && !Moving)
+        else if (Input.GetAxis("Vertical") > 0)
         {
             if (!forwardTrig.trig)
             {
-                Debug.Log("Forward");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
                 currentDirection = direction.Forward;
             }
         }
-        else if (Input.GetAxis("Vertical") < 0 && !Moving)
+        else if (Input.GetAxis("Vertical") < 0)
         {
             
             if (!backTrig.trig)
             {
-                Debug.Log("Back");
                 Moving = true;
                 inJunction = false;
                 pastPosition = currentPosition;
@@ -309,7 +301,7 @@ public class PlayerControl : MonoBehaviour {
         player.localPosition = destination;
         directionFlag = temp;
         mazeRotate.rotate = true;
-        inJunction = true;  
+        //inJunction = true;  
 
         if(currentDirection == direction.Right)
         {
