@@ -41,7 +41,6 @@ public class PlayerControl : MonoBehaviour {
     Transform MazeLimits;
     bool inJunction;
     bool Moving;
-    int flag;
     int FLAG = 1;
     Vector3 directionVector;
     
@@ -52,7 +51,6 @@ public class PlayerControl : MonoBehaviour {
     Vector3 localDown;
     void Start () {
 
-        flag = 0;   // gets triggered at the edges when the maze is to be turned 
         speed = 0.1f;
         mazeRotate = Maze.GetComponent<MazeRotation>();
         groundray = GroundRay.GetComponent<GroundRayCast>();
@@ -74,8 +72,6 @@ public class PlayerControl : MonoBehaviour {
 	void FixedUpdate () 
     {
         //to getting the local vectors in the respected directions 
-        Debug.Log("current Direction : " + currentDirection);
-        Debug.Log("Direction Flag : " + directionFlag);
         localForward = transform.parent.InverseTransformDirection(transform.forward);
         localRight = transform.parent.InverseTransformDirection(transform.right);
         localLeft = localRight*-1;
@@ -83,11 +79,8 @@ public class PlayerControl : MonoBehaviour {
         localDown = transform.parent.InverseTransformDirection(transform.up) * -1;
         
         currentPosition = player.localPosition;
-        if(flag == 0)
-        {
-            TrigCol();
-        }
-        if(Mathf.Abs(currentPosition.x) > BoundaryLimits || Mathf.Abs(currentPosition.y) > BoundaryLimits|| Mathf.Abs(currentPosition.z) > BoundaryLimits && flag == 0)
+        TrigCol();
+        if(Mathf.Abs(currentPosition.x) > BoundaryLimits || Mathf.Abs(currentPosition.y) > BoundaryLimits|| Mathf.Abs(currentPosition.z) > BoundaryLimits)
         {
             if(player.localPosition.x > 4.5f)
             {
@@ -119,15 +112,9 @@ public class PlayerControl : MonoBehaviour {
         else if(!inJunction)
         {
 
-            if(player.localPosition == destination && flag == 0)
+            if(player.localPosition == destination)
             {
                 directionFlag = direction.None;
-            }
-            else if(flag == 1)
-            {
-                currentDirection = directionFlag;
-                directionFlag = direction.None;
-                flag = 0;
             }
             Move();
         }
@@ -154,7 +141,7 @@ public class PlayerControl : MonoBehaviour {
         }
         else
         {
-            if (mag > minMag)
+            if (mag >= minMag)
             {
                 if (currentDirection == direction.Forward || currentDirection == direction.Back)
                 {
@@ -322,28 +309,31 @@ public class PlayerControl : MonoBehaviour {
         player.localPosition = destination;
         directionFlag = temp;
         mazeRotate.rotate = true;
-        inJunction = true;
+        inJunction = true;  
 
         if(currentDirection == direction.Right)
         {
+            Debug.Log("Right Rotation");
             mazeRotate.rotateDirection = localForward * 2;
-            transform.Rotate(localForward * -90);
+            transform.Rotate(0, 0, -90);
         }
         else if (currentDirection == direction.Left)
         {
+            Debug.Log("Left Rotation");
             mazeRotate.rotateDirection = localBack * 2;
-            transform.Rotate(localBack * -90);
+            transform.Rotate(0, 0, 90);
         }
         else if (currentDirection == direction.Forward)
         {
+            Debug.Log("Forward Rotation");
             mazeRotate.rotateDirection = localLeft * 2;
-            transform.Rotate(localLeft * -90);
+            transform.Rotate(90, 0, 0);
         }
         else if (currentDirection == direction.Back)
         {
+            Debug.Log("Back rotation");
             mazeRotate.rotateDirection = localRight * 2;
-            transform.Rotate(localRight * -90);
+            transform.Rotate(-90, 0, 0);
         }
-        //flag = 1;
     }
 }
