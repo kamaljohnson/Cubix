@@ -8,42 +8,40 @@ public class SwipeControl : MonoBehaviour {
 	Vector2 StartTouch;
 	Vector2 SwipeDelta;
 	bool Touch;
-	enum Direction
-	{
-		None,
-		Right,
-		Left,
-		Forward,
-		Back
-	};
-	Direction SwipeDirection;
+	public bool SwipeRight;
+	public bool SwipeLeft;
+	public bool SwipeForward;
+	public bool SwipeBack;
+
 	void Reset()
 	{
 		Touch = false;
+
 	}
 	void Start () {
 		Touch = false;
 		SwipeDelta = Vector2.zero;
-		SwipeDirection = Direction.None;
+
+		SwipeRight = false;
+		SwipeLeft = false;
+		SwipeForward = false;
+		SwipeBack = false;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
+		if(Input.GetMouseButtonDown(0) && !Touch)
+		{	
+			Debug.Log("Here");
+			Touch = true;
+			StartTouch = Input.mousePosition;	
+		}
+		else if(Input.GetMouseButtonUp(0))
+		{	
+			Reset();
+		}
 		if(Input.touches.Length > 0)	//touched
 		{
-			#region  MouseInput
-			if(Input.GetMouseButtonDown(0))
-			{
-				Touch = true;
-				StartTouch = Input.mousePosition;
-			}
-			else if(Input.GetMouseButtonUp(0))
-			{
-				Reset();
-			}
-			#endregion
-			
-			#region MobileInput
 			if(Input.touches[0].phase == TouchPhase.Began)
 			{
 				Touch = true;
@@ -53,47 +51,63 @@ public class SwipeControl : MonoBehaviour {
 			{
 				Reset();
 			}
-			#endregion
 		}
-
+		SwipeDelta = Vector2.zero;
 		if(Touch)
 		{
 			if(Input.touches.Length > 0)
 			{
-				SwipeDelta = Input.touches[0].position - StartTouch;
+				SwipeDelta = Input.touches[0].position - StartTouch; 
 			}
-			else if(Input.GetMouseButtonDown(0))
+			if(Input.GetMouseButton(0))
 			{
 				SwipeDelta = (Vector2)Input.mousePosition - StartTouch;
+
+				Debug.Log("mousePosition : " + (Vector2)Input.mousePosition);
 			}
 		}
-
-		if(SwipeDelta.magnitude > 120)
+		Debug.Log("Magnitude : " + SwipeDelta.magnitude);
+		if(SwipeDelta.magnitude > 100)
 		{
 			float x = SwipeDelta.x;
 			float y = SwipeDelta.y;
-			
-			if(x > 0 && y > 0)
-			{
-				SwipeDirection = Direction.Forward;
-			}
-			if(x < 0 && y < 0)
-			{
-				SwipeDirection = Direction.Back;
-			}
+
+			Debug.Log("X : " + x);
+			Debug.Log("Y : " + y);
 			if(x > 0 && y < 0)
 			{
-				SwipeDirection = Direction.Right;
+				SwipeRight = true;
+			}
+			else
+			{
+				SwipeRight = false;
 			}
 			if(x < 0 && y > 0)
 			{
-				SwipeDirection = Direction.Left;
+				SwipeLeft = true;
+			}
+			else
+			{
+				SwipeLeft = false;
+			}
+			if(x > 0 && y > 0)
+			{
+				SwipeForward = true;
+			}
+			else
+			{
+				SwipeForward = false;
+			}
+			if(x < 0 && y < 0)
+			{
+				SwipeBack = true;
+			}
+			else
+			{
+				SwipeBack = false;
 			}
 			Reset();
 		}
 	}
-	public Direction SwipeInput()
-	{	
-		return((int)SwipeDirection);
-	}
+	
 }

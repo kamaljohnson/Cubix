@@ -532,6 +532,8 @@ GameObject:
   - component: {fileID: 1227366773}
   - component: {fileID: 1227366775}
   - component: {fileID: 1227366774}
+  - component: {fileID: 1227366776}
+  - component: {fileID: 1227366777}
   m_Layer: 0
   m_Name: player
   m_TagString: mazeBody
@@ -585,7 +587,32 @@ MonoBehaviour:
   leftCollider: {fileID: 376403153}
   forwardCollider: {fileID: 788161506}
   backCollider: {fileID: 2040043563}
-  GroundRay: {fileID: 1227366772}
+--- !u!114 &1227366776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1227366772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5235221e896400d4abab9d1738d06730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1227366777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1227366772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 767fe3f607d53684ba174d9c10f32ae3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SwipeRight: 0
+  SwipeLeft: 0
+  SwipeForward: 0
+  SwipeBack: 0
 --- !u!1 &1230240754
 GameObject:
   m_ObjectHideFlags: 0
